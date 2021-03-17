@@ -7,7 +7,7 @@
 class Core;
 class Tool;
 
-class InterfaceTool {
+class InterfaceTool : public Core {
     public:
         InterfaceTool();
         ~InterfaceTool();
@@ -15,18 +15,19 @@ class InterfaceTool {
         enum ScreenSetup {
             WIDE = 0,
             SPLITED_V = 1,
-            SPLITED_H = 2,
-            MENU = 3
+            SPLITED_H =  2,
+            SPLITED_VH = 3,
+            NONE = 4
         };
 
         int initTools();
         int handleInputs(Keys::Key);
         int update(Keys::Key);
-        int render(WINDOW *);
+        int render(WINDOW *, Keys::Scope);
         Tool *getSpecificTool(const char *);
 
     private:
-        std::vector<int> _screenSetup;
+        ScreenSetup _screenSetup;
         std::vector<Tool *> _tools;
         Tool *_currentTool;
         //Tool *_notepad;

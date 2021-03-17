@@ -30,6 +30,9 @@ void Core::initTerminal()
 void Core::initColor()
 {
     start_color();
+    init_color(COLOR_BLACK, 0, 0, 0);
+
+    //Police color
 	init_pair(0, COLOR_BLACK, COLOR_BLACK);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -38,6 +41,8 @@ void Core::initColor()
 	init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
 	init_pair(6, COLOR_CYAN, COLOR_BLACK);
 	init_pair(7, COLOR_WHITE, COLOR_BLACK);
+
+    //Full cursor box color
 	init_pair(8, COLOR_RED, COLOR_RED);
 	init_pair(9, COLOR_GREEN, COLOR_GREEN);
 	init_pair(10, COLOR_YELLOW, COLOR_YELLOW);
@@ -45,7 +50,9 @@ void Core::initColor()
 	init_pair(12, COLOR_MAGENTA, COLOR_MAGENTA);
 	init_pair(13, COLOR_CYAN, COLOR_CYAN);
 	init_pair(14, COLOR_WHITE, COLOR_WHITE);
-	init_color(COLOR_BLACK, 0, 0, 0);
+
+    //Black police
+    init_pair(15, COLOR_BLACK, COLOR_GREEN);
     return;
 }
 
@@ -121,13 +128,13 @@ Keys::Key Core::getInput()
         case 'z':
             return (Keys::K_Z);
         case KEY_UP:
-            return (Keys::K_EXIT);
+            return (Keys::K_UP);
         case KEY_DOWN:
-            return (Keys::K_EXIT);
+            return (Keys::K_DOWN);
         case KEY_LEFT:
-            return (Keys::K_EXIT);
+            return (Keys::K_LEFT);
         case KEY_RIGHT:
-            return (Keys::K_EXIT);
+            return (Keys::K_RIGHT);
         case 0x1B:
             return (Keys::K_EXIT);
         case ' ':
@@ -136,9 +143,24 @@ Keys::Key Core::getInput()
             return (Keys::K_BACKSPACE);
         case '\n':
             return (Keys::K_RETURN);
+        case KEY_BTAB:
+            return (Keys::K_CONTROL);
         default:
             return (Keys::K_UNDEFINED);
     }
+}
+
+void Core::setKBMode(void)
+{
+    switch (this->_keyboardMode) {
+        case Keys::Scope::TYPING:
+            this->_keyboardMode = Keys::Scope::NAVIGATION;
+            break;
+        case Keys::Scope::NAVIGATION:
+            this->_keyboardMode = Keys::Scope::TYPING;
+            break;
+    }
+    return;
 }
 
 InterfaceTool *Core::getTools(void)
@@ -162,12 +184,13 @@ int Core::run()
         event = this->getInput();
         if (event == Keys::K_EXIT) {
             // save instance
-            mvprintw(0, 0, "Exiting", this->_window);
             this->setIsRunning(false);
+        } else if (event == Keys::K_CONTROL) {
+            this->setKBMode();
         }
         wrefresh(this->_window);
         exitCode = this->getTools()->update(event);
-        exitCode = this->getTools()->render(this->_window);
+        exitCode = this->getTools()->render(this->_window, this->_keyboardMode);
     }
     return (exitCode);
 }
@@ -179,6 +202,7 @@ Core::Core()
     this->_row = 0;
     this->_col = 0;
     this->_isRunning = true;
+    this->_keyboardMode = Keys::Scope::NAVIGATION;
     refresh();
 }
 

@@ -22,10 +22,12 @@
 
 class InterfaceTool;
 
-namespace GConfig {
-}
-
 namespace Keys {
+    enum Scope {
+            TYPING,
+            NAVIGATION
+    };
+
     enum Key {
         K_A,
         K_B,
@@ -61,89 +63,38 @@ namespace Keys {
         K_RETURN,
         K_BACKSPACE,
         K_EXIT,
-    	K_UNDEFINED
+    	K_UNDEFINED,
+        K_CONTROL
     };
 }
-
-/*
-Key operator<(Key &event)
-{
-    switch (key) {
-        case 'a':
-            return (K_A);
-        case 'b':
-            return (K_B);
-        case 'c':
-            return (K_C);
-        case 'd':
-            return (K_D);
-        case 'e':
-            return (K_E);
-        case 'f':
-            return (K_F);
-        case 'g':
-            return (K_G);
-        case 'h':
-            return (K_H);
-        case 'i':
-            return (K_I);
-        case 'j':
-            return (K_J);
-        case 'k':
-            return (K_K);
-        case 'l':
-            return (K_L);
-        case 'm':
-            return (K_M);
-        case 'n':
-            return (K_N);
-        case 'o':
-            return (K_O);
-        case 'p':
-            return (K_P);
-        case 'q':
-            return (K_Q);
-        case 'r':
-            return (K_R);
-        case 's':
-            return (K_S);
-        case 't':
-            return (K_T);
-        case 'u':
-            return (K_U);
-        case 'v':
-            return (K_V);
-        case 'w':
-            return (K_W);
-        case 'x':
-            return (K_X);
-        case 'y':
-            return (K_Y);
-        case 'z':
-            return (K_Z);
-}
-*/
 
 class Core {
     public:
     	Core();
     	~Core();
+
+        // Initializations
         int init();
         void initTerminal();
         void initColor();
-        int run();
 
+        int run();
         Keys::Key getInput();
         void setIsRunning(bool);
 
+        // Window settings
         void setWindow(WINDOW *);
         WINDOW *getWindow();
 
         InterfaceTool *getTools(void);
-        // No setter because only need to be initialized
+
+        void setKBMode(void);
+
     private:
         WINDOW *_window;
         int _height, _width, _row, _col;
+
+        Keys::Scope _keyboardMode;
 
         bool _isRunning;
         InterfaceTool *_toolInterface;

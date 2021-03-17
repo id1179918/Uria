@@ -2,6 +2,7 @@
 #include "Tool.hpp"
 #include "Core.hpp"
 #include "Ncurses.hpp"
+#include "Menu.hpp"
 
 
 InterfaceTool::InterfaceTool()
@@ -15,7 +16,8 @@ InterfaceTool::InterfaceTool()
     this->_tools.push_back(reminder);
     this->_tools.push_back(calendar);
     this->_tools.push_back(menu);
-    this->_screenSetup = {1, 0, 0, 0};
+    this->_screenSetup = InterfaceTool::ScreenSetup::NONE;
+    this->_currentTool = menu;
 }
 
 InterfaceTool::~InterfaceTool()
@@ -44,7 +46,9 @@ int InterfaceTool::handleInputs(Keys::Key event)
             return (1);
             break;
         //case (event < 26):
-        //    return (1);a
+        //    return (1);
+        case Keys::K_CONTROL:
+            return (2);
     }
     return (0);
 }
@@ -55,22 +59,28 @@ int InterfaceTool::update(Keys::Key event)
     return (0);
 }
 
-int InterfaceTool::render(WINDOW *_window)
+int InterfaceTool::render(WINDOW *_window, Keys::Scope _scope)
 {
     //Global rectangle frame
     rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
     //Menu config
     Tool *menu_tool = this->getSpecificTool("MENU");
+    //Tool *notepad_tool = this->getSpecificTool("NOTEPAD");
+    //Tool *reminder_tool = this->getSpecificTool("REMINDER");
+    //Tool *calendar_tool = this->getSpecificTool("CALENDAR");
     if (menu_tool != nullptr) {
-        if (menu_tool->getToggle() == true) {
-            rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
-            wattron(_window, COLOR_PAIR(2));
-            mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
-            wattroff(_window, COLOR_PAIR(2));
+        if (_scope == Keys::Scope::TYPING) {
+            if (menu_tool->getToggle() == true) {
+                displayMenuTyping(_window);
+                //switch ((int) this->_screenSetup) {}
+            }
+        } else if (_scope == Keys::Scope::NAVIGATION) {
+            if (menu_tool->getToggle() == true) {
+                if (std::strcmp(this->_currentTool->getName(), "MENU") == 0)
+                    displayMenuNav(_window);
+                //switch ((int) this->_screenSetup) {}
+            }
         }
-        //switch ((int) ) {
-        //    case:
-        //}
     }
     //for (auto it = this->_tools.begin(); it != this->_tools.end(); it++) {
     //    Tool *tmp = *it;
