@@ -4,6 +4,7 @@
 #include "Errors.hpp"
 
 #include <algorithm>
+#include <cstring>
 #include <ctype.h>
 #include <curses.h>
 #include <fstream>
@@ -17,8 +18,12 @@
 #include <unistd.h>
 #include <term.h>
 #include <vector>
+#include <list>
 
 class InterfaceTool;
+
+namespace GConfig {
+}
 
 namespace Keys {
     enum Key {
@@ -133,12 +138,15 @@ class Core {
 
         void setWindow(WINDOW *);
         WINDOW *getWindow();
+
+        InterfaceTool *getTools(void);
+        // No setter because only need to be initialized
     private:
         WINDOW *_window;
         int _height, _width, _row, _col;
 
         bool _isRunning;
-        InterfaceTool *_tools;
+        InterfaceTool *_toolInterface;
 };
 
 #endif

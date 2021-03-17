@@ -5,12 +5,15 @@ OBJ		= $(SRC:.cpp=.o)
 
 SRC		= 	sources/Main.cpp				\
 			sources/core/Core.cpp			\
+			sources/ncurses/Ncurses.cpp		\
 			sources/tools/InterfaceTool.cpp	\
+			sources/tools/Tool.cpp			\
 			sources/errors/Errors.cpp		\
 
 CXXFLAGS	+= -I sources/core
 CXXFLAGS	+= -I sources/errors
 CXXFLAGS	+= -I sources/tools
+CXXFLAGS	+= -I sources/ncurses
 CXXFLAGS	+= -Wall -Wextra -fPIC
 CXXFLAGS	+= -std=c++17
 CXXFLAGS	+= -g

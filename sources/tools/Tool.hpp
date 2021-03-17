@@ -6,15 +6,16 @@
 #include "Core.hpp"
 #include "InterfaceTool.hpp"
 
-class Tool : public InterfaceTool {
+class Tool {
     public:
-        Tool();
+        Tool(const char *);
         ~Tool();
-        int render(WINDOW *);
+        bool getToggle();
+        const char *getName();
     private:
-        WINDOW *_subWindow;
-        std::string _name;
+        const char *_name;
         bool _toggle;
+        //time_since_last_use
 };
 
 #endif

@@ -6,7 +6,7 @@
 class Errors: public std::exception {
 public:
 	Errors(std::ostream &, const std::string &) throw();
-	virtual ~Errors(void) throw();
+	~Errors(void) throw();
 	const char *msg(void) const throw();
 
 private:

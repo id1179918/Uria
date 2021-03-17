@@ -58,8 +58,8 @@ int Core::init()
         return (84);
     }
 	initColor();
-    this->_window = subwin(stdscr, LINES, COLS, 0, 0);
-    this->_tools = new InterfaceTool();
+    this->_window = newwin(LINES, COLS, 0, 0);
+    this->_toolInterface = new InterfaceTool();
     return (0);
 }
 
@@ -115,7 +115,7 @@ Keys::Key Core::getInput()
         case 'w':
             return (Keys::K_W);
         case 'x':
-            return (Keys::K_EXIT);
+            return (Keys::K_X);
         case 'y':
             return (Keys::K_Y);
         case 'z':
@@ -141,6 +141,11 @@ Keys::Key Core::getInput()
     }
 }
 
+InterfaceTool *Core::getTools(void)
+{
+    return (this->_toolInterface);
+}
+
 void Core::setIsRunning(bool state)
 {
     this->_isRunning = state;
@@ -152,20 +157,17 @@ int Core::run()
     int exitCode = 0;
     Keys::Key event;
 
-    //InterfaceTool[] tools;
-    //InterfaceTool *activeTool
-
 
     while (this->_isRunning) {
         event = this->getInput();
         if (event == Keys::K_EXIT) {
             // save instance
             mvprintw(0, 0, "Exiting", this->_window);
-            wrefresh(this->_window);
             this->setIsRunning(false);
         }
-        exitCode = this->_tools->update(event);
-        exitCode = this->_tools->render(this->_window);
+        wrefresh(this->_window);
+        exitCode = this->getTools()->update(event);
+        exitCode = this->getTools()->render(this->_window);
     }
     return (exitCode);
 }
@@ -185,5 +187,6 @@ Core::~Core()
 	werase(this->_window);
 	delwin(this->_window);
 	endwin();
+    delete this->_toolInterface;
     refresh();
 }

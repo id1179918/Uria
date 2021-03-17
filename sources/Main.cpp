@@ -7,6 +7,7 @@ int main()
 
     core = new Core();
     core->init();
-    exitCode = core->run();
+    printf("initiated\n");
+    core->run();
     return (exitCode);
 }
