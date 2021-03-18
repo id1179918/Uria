@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "Core.hpp"
-#include "InterfaceTool.hpp"
 
 class Tool {
     public:

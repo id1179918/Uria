@@ -9,10 +9,10 @@ SRC		= 	sources/Main.cpp				\
 			sources/ncurses/menu/Menu.cpp	\
 			sources/tools/InterfaceTool.cpp	\
 			sources/tools/Tool.cpp			\
-			sources/errors/Errors.cpp		\
+			#sources/errors/Errors.cpp		\
 
 CXXFLAGS	+= -I sources/core
-CXXFLAGS	+= -I sources/errors
+#CXXFLAGS	+= -I sources/errors
 CXXFLAGS	+= -I sources/tools
 CXXFLAGS	+= -I sources/ncurses
 CXXFLAGS	+= -I sources/ncurses/menu

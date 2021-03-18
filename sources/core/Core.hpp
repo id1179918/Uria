@@ -1,12 +1,11 @@
 #ifndef CORE_HPP_
 #define CORE_HPP_
 
-#include "Errors.hpp"
-
 #include <algorithm>
 #include <cstring>
 #include <ctype.h>
 #include <curses.h>
+#include <exception>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -17,17 +16,11 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <term.h>
-#include <vector>
 #include <list>
 
 class InterfaceTool;
 
 namespace Keys {
-    enum Scope {
-            TYPING,
-            NAVIGATION
-    };
-
     enum Key {
         K_A,
         K_B,
@@ -66,7 +59,7 @@ namespace Keys {
     	K_UNDEFINED,
         K_CONTROL
     };
-}
+};
 
 class Core {
     public:
@@ -93,8 +86,6 @@ class Core {
     private:
         WINDOW *_window;
         int _height, _width, _row, _col;
-
-        Keys::Scope _keyboardMode;
 
         bool _isRunning;
         InterfaceTool *_toolInterface;

@@ -30,7 +30,6 @@ void Core::initTerminal()
 void Core::initColor()
 {
     start_color();
-    init_color(COLOR_BLACK, 0, 0, 0);
 
     //Police color
 	init_pair(0, COLOR_BLACK, COLOR_BLACK);
@@ -53,6 +52,8 @@ void Core::initColor()
 
     //Black police
     init_pair(15, COLOR_BLACK, COLOR_GREEN);
+
+    init_color(COLOR_BLACK, 0, 0, 0);
     return;
 }
 
@@ -150,19 +151,6 @@ Keys::Key Core::getInput()
     }
 }
 
-void Core::setKBMode(void)
-{
-    switch (this->_keyboardMode) {
-        case Keys::Scope::TYPING:
-            this->_keyboardMode = Keys::Scope::NAVIGATION;
-            break;
-        case Keys::Scope::NAVIGATION:
-            this->_keyboardMode = Keys::Scope::TYPING;
-            break;
-    }
-    return;
-}
-
 InterfaceTool *Core::getTools(void)
 {
     return (this->_toolInterface);
@@ -185,12 +173,10 @@ int Core::run()
         if (event == Keys::K_EXIT) {
             // save instance
             this->setIsRunning(false);
-        } else if (event == Keys::K_CONTROL) {
-            this->setKBMode();
         }
         wrefresh(this->_window);
         exitCode = this->getTools()->update(event);
-        exitCode = this->getTools()->render(this->_window, this->_keyboardMode);
+        exitCode = this->getTools()->render(this->_window);
     }
     return (exitCode);
 }
@@ -202,7 +188,6 @@ Core::Core()
     this->_row = 0;
     this->_col = 0;
     this->_isRunning = true;
-    this->_keyboardMode = Keys::Scope::NAVIGATION;
     refresh();
 }
 

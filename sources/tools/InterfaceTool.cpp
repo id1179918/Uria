@@ -10,18 +10,35 @@ InterfaceTool::InterfaceTool()
     Tool *notepad = new Tool("NOTEPAD");
     Tool *reminder = new Tool("REMINDER");
     Tool *calendar = new Tool("CALENDAR");
-    Tool *menu = new Tool("MENU");
 
     this->_tools.push_back(notepad);
     this->_tools.push_back(reminder);
     this->_tools.push_back(calendar);
-    this->_tools.push_back(menu);
     this->_screenSetup = InterfaceTool::ScreenSetup::NONE;
-    this->_currentTool = menu;
+    this->_keyboardMode = InterfaceTool::KeyboardScope::NAVIGATION;
+    this->_currentTool = nullptr;
 }
 
 InterfaceTool::~InterfaceTool()
-{}
+{
+    for (auto it = this->_tools.begin(); it != this->_tools.end(); it++) {
+        Tool *tmp = *it;
+        delete tmp;
+    }
+}
+
+void InterfaceTool::setKBMode(void)
+{
+    switch (this->_keyboardMode) {
+        case InterfaceTool::KeyboardScope::TYPING:
+            this->_keyboardMode = InterfaceTool::KeyboardScope::NAVIGATION;
+            break;
+        case InterfaceTool::KeyboardScope::NAVIGATION:
+            this->_keyboardMode = InterfaceTool::KeyboardScope::TYPING;
+            break;
+    }
+    return;
+}
 
 Tool *InterfaceTool::getSpecificTool(const char *name)
 {
@@ -39,52 +56,67 @@ int InterfaceTool::initTools()
     return (0);
 }
 
-int InterfaceTool::handleInputs(Keys::Key event)
+int InterfaceTool::handleInputsTyping(Keys::Key event)
 {
     switch ((int) event) {
-        case Keys::K_EXIT:
-            return (1);
-            break;
         //case (event < 26):
         //    return (1);
-        case Keys::K_CONTROL:
-            return (2);
+    }
+    return (0);
+}
+
+int InterfaceTool::handleInputsNav(Keys::Key event)
+{
+    switch ((int) event) {
+        case Keys::Key::K_UP:
+            this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+            break;
+        case Keys::Key::K_DOWN:
+            this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+            break;
     }
     return (0);
 }
 
 int InterfaceTool::update(Keys::Key event)
 {
-    this->handleInputs(event);
+    switch ((int) event) {
+        case Keys::K_CONTROL:
+            this->setKBMode();
+            break;
+        default:
+            if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
+                this->handleInputsNav(event);
+            } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
+                this->handleInputsTyping(event);
+            }
+            break;
+    }
     return (0);
 }
 
-int InterfaceTool::render(WINDOW *_window, Keys::Scope _scope)
+int InterfaceTool::render(WINDOW *_window)
 {
     //Global rectangle frame
     rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
     //Menu config
-    Tool *menu_tool = this->getSpecificTool("MENU");
     //Tool *notepad_tool = this->getSpecificTool("NOTEPAD");
     //Tool *reminder_tool = this->getSpecificTool("REMINDER");
     //Tool *calendar_tool = this->getSpecificTool("CALENDAR");
-    if (menu_tool != nullptr) {
-        if (_scope == Keys::Scope::TYPING) {
-            if (menu_tool->getToggle() == true) {
-                displayMenuTyping(_window);
+    if (this->_menu != nullptr) {
+        if (_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
+            if (this->_menu->getToggle() == true) {
+                this->_menu->displayMenuTyping(_window);
                 //switch ((int) this->_screenSetup) {}
             }
-        } else if (_scope == Keys::Scope::NAVIGATION) {
-            if (menu_tool->getToggle() == true) {
+        } else if (_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
+            if (this->_menu->getToggle() == true) {
                 if (std::strcmp(this->_currentTool->getName(), "MENU") == 0)
-                    displayMenuNav(_window);
+                    this->_menu->displayMenuNav(_window);
                 //switch ((int) this->_screenSetup) {}
             }
         }
     }
-    //for (auto it = this->_tools.begin(); it != this->_tools.end(); it++) {
-    //    Tool *tmp = *it;
-    //}
     wrefresh(_window);
     return (0);
 }

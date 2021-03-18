@@ -1,7 +1,64 @@
 #include "Core.hpp"
 #include "Ncurses.hpp"
+#include "InterfaceTool.hpp"
+#include "Menu.hpp"
 
-void displayMenuTyping(WINDOW *_window)
+Menu::Menu(std::vector<Tool *> tools)
+{
+    this->_tools = tools;
+    this->_highlightTool = tools.front();
+    this->_toggle = true;
+}
+
+Menu::~Menu()
+{}
+
+bool Menu::getToggle()
+{
+    return (this->_toggle);
+}
+
+Tool *Menu::getHighlightedTool(void)
+{
+    return (this->_highlightTool);
+}
+
+Tool *Menu::changeMenuToolSelectionAbove(Tool *tool) {
+    try {
+        for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), tool->getName()) == 0) {
+                if (it == this->_tools.begin())
+                    return (this->_tools.back());
+                else
+                    return (readingTool);
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from Menu module: " << e.what() << std::endl;
+    }
+    return (tool);
+}
+
+Tool *Menu::changeMenuToolSelectionBelow(Tool *tool)
+{
+    try {
+        for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), tool->getName()) == 0) {
+                if (it++ == this->_tools.end())
+                    return (this->_tools.front());
+                else
+                    return (readingTool);
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from Menu module: " << e.what() << std::endl;
+    }
+    return (tool);
+}
+
+void Menu::displayMenuTyping(WINDOW *_window)
 {
     rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
     wattron(_window, COLOR_PAIR(2));
@@ -13,7 +70,7 @@ void displayMenuTyping(WINDOW *_window)
     return;
 }
 
-void displayMenuNav(WINDOW *_window)
+void Menu::displayMenuNav(WINDOW *_window)
 {
     wattron(_window, COLOR_PAIR(3));
     rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);

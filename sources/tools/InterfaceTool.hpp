@@ -3,11 +3,11 @@
 
 #include "Core.hpp"
 #include "Tool.hpp"
+#include "Menu.hpp"
 
-class Core;
-class Tool;
+#include <vector>
 
-class InterfaceTool : public Core {
+class InterfaceTool {
     public:
         InterfaceTool();
         ~InterfaceTool();
@@ -20,20 +20,38 @@ class InterfaceTool : public Core {
             NONE = 4
         };
 
+        enum AvailableToolsMenu {
+            NOTEPAD,
+            REMINDER,
+            CALENDAR
+        };
+
+        enum KeyboardScope {
+            TYPING,
+            NAVIGATION
+        };
+
         int initTools();
-        int handleInputs(Keys::Key);
+
+        int handleInputsTyping(Keys::Key);
+        int handleInputsNav(Keys::Key);
+
         int update(Keys::Key);
-        int render(WINDOW *, Keys::Scope);
+        int render(WINDOW *);
+
+        void setKBMode(void);
+
         Tool *getSpecificTool(const char *);
 
     private:
         ScreenSetup _screenSetup;
+
+        InterfaceTool::KeyboardScope _keyboardMode;
+
         std::vector<Tool *> _tools;
+
+        Menu *_menu;
         Tool *_currentTool;
-        //Tool *_notepad;
-        //Tool *_reminder;
-        //Tool *_calendar;
-        //Tool *_menu;
 };
 
 #endif
