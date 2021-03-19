@@ -7,9 +7,8 @@
 #include <curses.h>
 #include <exception>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
-#include <map>
+#include <iomanip>
 #include <ncurses.h>
 #include <signal.h>
 #include <stdlib.h>

@@ -23,39 +23,41 @@ Tool *Menu::getHighlightedTool(void)
     return (this->_highlightTool);
 }
 
-Tool *Menu::changeMenuToolSelectionAbove(Tool *tool) {
+void Menu::changeMenuToolSelectionAbove(Tool *tool) {
     try {
         for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
             Tool *readingTool = *it;
             if (std::strcmp(readingTool->getName(), tool->getName()) == 0) {
                 if (it == this->_tools.begin())
-                    return (this->_tools.back());
+                    this->_highlightTool = this->_tools.back();
                 else
-                    return (readingTool);
+                    this->_highlightTool = readingTool;
+                return;
             }
         }
     } catch (const std::exception& e) {
         std::cerr << "Uria error from Menu module: " << e.what() << std::endl;
     }
-    return (tool);
+    return;
 }
 
-Tool *Menu::changeMenuToolSelectionBelow(Tool *tool)
+void Menu::changeMenuToolSelectionBelow(Tool *tool)
 {
     try {
         for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
             Tool *readingTool = *it;
             if (std::strcmp(readingTool->getName(), tool->getName()) == 0) {
                 if (it++ == this->_tools.end())
-                    return (this->_tools.front());
+                    this->_highlightTool = this->_tools.front();
                 else
-                    return (readingTool);
+                    this->_highlightTool = readingTool;
+                return;
             }
         }
     } catch (const std::exception& e) {
         std::cerr << "Uria error from Menu module: " << e.what() << std::endl;
     }
-    return (tool);
+    return;
 }
 
 void Menu::displayMenuTyping(WINDOW *_window)
@@ -72,15 +74,24 @@ void Menu::displayMenuTyping(WINDOW *_window)
 
 void Menu::displayMenuNav(WINDOW *_window)
 {
+    int verticalOffset = 6;
+
     wattron(_window, COLOR_PAIR(3));
     rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
     wattroff(_window, COLOR_PAIR(3));
     wattron(_window, COLOR_PAIR(2));
     mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
     wattroff(_window, COLOR_PAIR(2));
-    //for ()
-    mvwprintw(_window, (LINES - LINES) + 6, (COLS - COLS) + 4, "NOTEPAD");
-    mvwprintw(_window, (LINES - LINES) + 8, (COLS - COLS) + 4, "REMINDER");
-    mvwprintw(_window, (LINES - LINES) + 10, (COLS - COLS) + 4, "CALENDAR");
+    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), this->_highlightTool->getName()) == 0) {
+                wattron(_window, COLOR_PAIR(15));
+                mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, this->_highlightTool->getName());
+                wattroff(_window, COLOR_PAIR(15));
+            } else {
+                mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, readingTool->getName());
+            }
+            verticalOffset += 2;
+    }
     return;
 }

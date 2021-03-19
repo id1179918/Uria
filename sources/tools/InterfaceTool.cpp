@@ -16,6 +16,7 @@ InterfaceTool::InterfaceTool()
     this->_tools.push_back(calendar);
     this->_screenSetup = InterfaceTool::ScreenSetup::NONE;
     this->_keyboardMode = InterfaceTool::KeyboardScope::NAVIGATION;
+    this->_menu = new Menu(this->_tools);
     this->_currentTool = nullptr;
 }
 
@@ -67,13 +68,15 @@ int InterfaceTool::handleInputsTyping(Keys::Key event)
 
 int InterfaceTool::handleInputsNav(Keys::Key event)
 {
-    switch ((int) event) {
-        case Keys::Key::K_UP:
-            this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
-            break;
-        case Keys::Key::K_DOWN:
-            this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
-            break;
+    if (this->_menu->getToggle() == true && this->_currentTool == nullptr) {
+        switch ((int) event) {
+            case Keys::Key::K_UP:
+                this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+                break;
+            case Keys::Key::K_DOWN:
+                this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+                break;
+        }
     }
     return (0);
 }
@@ -105,14 +108,13 @@ int InterfaceTool::render(WINDOW *_window)
     //Tool *calendar_tool = this->getSpecificTool("CALENDAR");
     if (this->_menu != nullptr) {
         if (_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
-            if (this->_menu->getToggle() == true) {
+            if (this->_menu->getToggle() == true && this->_currentTool == nullptr) {
                 this->_menu->displayMenuTyping(_window);
                 //switch ((int) this->_screenSetup) {}
             }
         } else if (_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
-            if (this->_menu->getToggle() == true) {
-                if (std::strcmp(this->_currentTool->getName(), "MENU") == 0)
-                    this->_menu->displayMenuNav(_window);
+            if (this->_menu->getToggle() == true && this->_currentTool == nullptr) {
+                this->_menu->displayMenuNav(_window);
                 //switch ((int) this->_screenSetup) {}
             }
         }

@@ -14,8 +14,8 @@ class Menu {
         void displayMenuTyping(WINDOW *);
         void displayMenuNav(WINDOW *);
 
-        Tool *changeMenuToolSelectionAbove(Tool *);
-        Tool *changeMenuToolSelectionBelow(Tool *);
+        void changeMenuToolSelectionAbove(Tool *);
+        void changeMenuToolSelectionBelow(Tool *);
 
         Tool *getHighlightedTool(void);
         bool getToggle();
