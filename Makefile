@@ -16,7 +16,7 @@ CXXFLAGS	+= -I sources/core
 CXXFLAGS	+= -I sources/tools
 CXXFLAGS	+= -I sources/ncurses
 CXXFLAGS	+= -I sources/ncurses/menu
-CXXFLAGS	+= -Wall -Wextra -fPIC
+CXXFLAGS	+= -Wall -Wextra -Wsign-compare -fPIC
 CXXFLAGS	+= -std=c++17
 CXXFLAGS	+= -g
 

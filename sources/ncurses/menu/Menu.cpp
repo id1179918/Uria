@@ -25,13 +25,12 @@ Tool *Menu::getHighlightedTool(void)
 
 void Menu::changeMenuToolSelectionAbove(Tool *tool) {
     try {
-        for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
-            Tool *readingTool = *it;
-            if (std::strcmp(readingTool->getName(), tool->getName()) == 0) {
-                if (it == this->_tools.begin())
+        for (int it = 0; it != (int) this->_tools.size(); it++) {
+            if (std::strcmp(this->_tools[it]->getName(), tool->getName()) == 0) {
+                if (this->_tools[it] == this->_tools[0])
                     this->_highlightTool = this->_tools.back();
                 else
-                    this->_highlightTool = readingTool;
+                    this->_highlightTool = this->_tools[--it];
                 return;
             }
         }
@@ -44,13 +43,12 @@ void Menu::changeMenuToolSelectionAbove(Tool *tool) {
 void Menu::changeMenuToolSelectionBelow(Tool *tool)
 {
     try {
-        for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
-            Tool *readingTool = *it;
-            if (std::strcmp(readingTool->getName(), tool->getName()) == 0) {
-                if (it++ == this->_tools.end())
+        for (int it = 0; it != (int) this->_tools.size(); it++) {
+            if (std::strcmp(this->_tools[it]->getName(), tool->getName()) == 0) {
+                if (this->_tools[it] == this->_tools[this->_tools.size() - 1])
                     this->_highlightTool = this->_tools.front();
                 else
-                    this->_highlightTool = readingTool;
+                    this->_highlightTool = this->_tools[++it];
                 return;
             }
         }

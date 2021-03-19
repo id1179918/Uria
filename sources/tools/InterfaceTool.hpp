@@ -43,6 +43,8 @@ class InterfaceTool {
 
         Tool *getSpecificTool(const char *);
 
+        std::ofstream myfile;
+
     private:
         ScreenSetup _screenSetup;
 

@@ -209,13 +209,9 @@ int Core::run()
 {
     int exitCode = 0;
     Keys::Key event;
-    std::ofstream myfile;
-    myfile.open ("test.txt");
-
 
     while (this->_isRunning) {
         event = this->getInput();
-        myfile << event << std::endl;
         if (event == Keys::K_EXIT) {
             // save instance
             this->setIsRunning(false);
@@ -224,7 +220,6 @@ int Core::run()
         exitCode = this->getTools()->update(event);
         exitCode = this->getTools()->render(this->_window);
     }
-    myfile.close();
     return (exitCode);
 }
 

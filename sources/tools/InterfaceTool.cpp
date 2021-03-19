@@ -11,6 +11,8 @@ InterfaceTool::InterfaceTool()
     Tool *reminder = new Tool("REMINDER");
     Tool *calendar = new Tool("CALENDAR");
 
+    this->myfile.open("test.txt");
+
     this->_tools.push_back(notepad);
     this->_tools.push_back(reminder);
     this->_tools.push_back(calendar);
@@ -26,6 +28,7 @@ InterfaceTool::~InterfaceTool()
         Tool *tmp = *it;
         delete tmp;
     }
+    this->myfile.close();
 }
 
 void InterfaceTool::setKBMode(void)
@@ -74,7 +77,7 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
                 this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
                 break;
             case Keys::Key::K_DOWN:
-                this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+                this->_menu->changeMenuToolSelectionBelow(this->_menu->getHighlightedTool());
                 break;
         }
     }
