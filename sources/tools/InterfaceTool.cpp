@@ -1,8 +1,97 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #include "InterfaceTool.hpp"
 #include "Tool.hpp"
 #include "Core.hpp"
 #include "Ncurses.hpp"
 #include "Menu.hpp"
+
+void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
+{
+    try {
+        for (int it = 0; it != (int) this->_tools.size(); it++) {
+            if (this->_tools[it]->getToggle() == true) {
+                if (this->_tools[it] == this->_currentTool) {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            wattron(_window, COLOR_PAIR(3));
+                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            wattroff(_window, COLOR_PAIR(3));
+                            break;
+                    }
+                } else {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            break;
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from InterfaceTool displaying module: " << e.what() << std::endl;
+    }
+    return;
+}
+
+void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
+{
+    try {
+        for (int it = 0; it != (int) this->_tools.size(); it++) {
+            if (this->_tools[it]->getToggle() == true) {
+                if (this->_tools[it] == this->_currentTool) {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            wattron(_window, COLOR_PAIR(5));
+                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            wattroff(_window, COLOR_PAIR(5));
+                            wattron(_window, COLOR_PAIR(16));
+                            mvwprintw(_window, (LINES - 2), (COLS - COLS + 15), this->_tools[it]->getName());
+                            wattroff(_window, COLOR_PAIR(16));
+                            break;
+                    }
+                } else {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            break;
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from InterfaceTool displaying module: " << e.what() << std::endl;
+    }
+    return;
+    return;
+}
+//
+//void Tool::displayToolWideWithoutMenu(WINDOW *_window)
+//{
+//    return;
+//}
 
 
 InterfaceTool::InterfaceTool()
@@ -44,6 +133,84 @@ void InterfaceTool::setKBMode(void)
     return;
 }
 
+void InterfaceTool::changeCurrentToolLeft(void)
+{
+    try {
+        if (this->_currentTool == nullptr) {
+            for (int i = (int) this->_tools.size() - 1; i >= 0; i--) {
+                if (this->_tools[i]->getToggle() == true) {
+                    this->_currentTool = this->_tools[i];
+                    return;
+                }
+            }
+            return;
+        }
+        for (int it = 0; it <= (int) this->_tools.size()- 1; it++) {
+            if (this->_tools[it] == this->_currentTool) {
+                for (int i = it - 1; i >= 0; i--) {
+                    if (this->_tools[i]->getToggle() == true) {
+                        this->_currentTool = this->_tools[i];
+                        return;
+                    }
+                }
+                if (this->_menu->getToggle() == true) {
+                    this->_currentTool = nullptr;
+                } else {
+                    for (int n = (int) this->_tools.size() - 1; n >= 0; n--) {
+                        if (this->_tools[n]->getToggle() == true) {
+                            this->_currentTool = this->_tools[n];
+                            return;
+                        }
+                    }
+                }
+                return;
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from InterfaceTool module: " << e.what() << std::endl;
+    }
+    return;
+}
+
+void InterfaceTool::changeCurrentToolRight(void)
+{
+    try {
+        if (this->_currentTool == nullptr) {
+            for (int i = 0; i <= (int) this->_tools.size() - 1; i++) {
+                if (this->_tools[i]->getToggle() == true) {
+                    this->_currentTool = this->_tools[i];
+                    return;
+                }
+            }
+            return;
+        }
+        for (int it = 0; it <= (int) this->_tools.size() - 1; it++) {
+            if (this->_tools[it] == this->_currentTool) {
+                for (int i = it + 1; i <= (int) this->_tools.size() - 1; i++) {
+                    if (this->_tools[i]->getToggle() == true) {
+                        this->_currentTool = this->_tools[i];
+                        return;
+                    }
+                }
+                if (this->_menu->getToggle() == true) {
+                    this->_currentTool = nullptr;
+                } else {
+                    for (int i = 0; i <= (int) this->_tools.size() - 1; i++) {
+                        if (this->_tools[i]->getToggle() == true) {
+                            this->_currentTool = this->_tools[i];
+                            return;
+                        }
+                    }
+                }
+                return;
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from InterfaceTool module: " << e.what() << std::endl;
+    }
+    return;
+}
+
 Tool *InterfaceTool::getSpecificTool(const char *name)
 {
     for (auto it = this->_tools.begin(); it != this->_tools.end(); it++) {
@@ -71,15 +238,48 @@ int InterfaceTool::handleInputsTyping(Keys::Key event)
 
 int InterfaceTool::handleInputsNav(Keys::Key event)
 {
-    if (this->_menu->getToggle() == true && this->_currentTool == nullptr) {
-        switch ((int) event) {
-            case Keys::Key::K_UP:
-                this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
-                break;
-            case Keys::Key::K_DOWN:
-                this->_menu->changeMenuToolSelectionBelow(this->_menu->getHighlightedTool());
-                break;
-        }
+    switch ((int) event) {
+        case Keys::Key::K_LEFT:
+            this->changeCurrentToolLeft();
+            break;
+        case Keys::Key::K_RIGHT:
+            this->changeCurrentToolRight();
+            break;
+        default:
+            if (this->_menu->getToggle() == true) {
+                if (this->_currentTool == nullptr) {
+                    if (event == Keys::Key::K_RETURN) {
+                            // if ScreenSetup::WIDE
+                                // if enabled Tool is Top and selected to is Top || enabled Tool is Bot and selected to is Bot
+                                    // this->_screenSetup = InterfaceTool::ScreenSetup::SPLITED_V;
+                                // if . . . Top ... Bot || ... Bot ... Top
+                                    // this->_screenSetup = InterfaceTool::ScreenSetup::SPLITED_H;
+                                // enable selected tool
+                                // enable selected tool
+                            // else if ScreenSetup::SPLITED_V
+                                // if selectedToolType = TOP
+                                    // unable unused tool (TYPE TOP)
+                                    // enable selected tool
+                                // else if selectedToolType = BOT
+                                    // unable unused tool (TYPE BOT)
+                                    // enable selected tool
+                            // else if ScreenSetup::SPLITED_H
+                            // else if ScreenSetup::SPLITED_VH
+                            if (this->_screenSetup == InterfaceTool::ScreenSetup::NONE) {
+                                this->_menu->getHighlightedTool()->setToggle(true);
+                                this->_currentTool = this->_menu->getHighlightedTool();
+                                this->_screenSetup = InterfaceTool::ScreenSetup::WIDE;
+                            }
+                            break;
+                    }
+                } //else if (this->_currentTool != nullptr) {}
+                if (event == Keys::Key::K_UP) {
+                    this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+                } else if (event == Keys::Key::K_DOWN) {
+                    this->_menu->changeMenuToolSelectionBelow(this->_menu->getHighlightedTool());
+                }
+            } // else {}
+        break;
     }
     return (0);
 }
@@ -109,19 +309,34 @@ int InterfaceTool::render(WINDOW *_window)
     //Tool *notepad_tool = this->getSpecificTool("NOTEPAD");
     //Tool *reminder_tool = this->getSpecificTool("REMINDER");
     //Tool *calendar_tool = this->getSpecificTool("CALENDAR");
-    if (this->_menu != nullptr) {
-        if (_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
-            if (this->_menu->getToggle() == true && this->_currentTool == nullptr) {
+    if (this->_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
+        if (this->_menu->getToggle() == true) {
+            if (this->_currentTool == nullptr) {
                 this->_menu->displayMenuTyping(_window);
-                //switch ((int) this->_screenSetup) {}
-            }
-        } else if (_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
-            if (this->_menu->getToggle() == true && this->_currentTool == nullptr) {
+            } else if (this->_currentTool != nullptr) {
                 this->_menu->displayMenuNav(_window);
-                //switch ((int) this->_screenSetup) {}
+                this->displayToolsWithMenuTyp(_window);
             }
         }
+    } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
+        if (this->_menu->getToggle() == true) {
+            if (this->_currentTool == nullptr) {
+                this->_menu->displayMenuNavSelected(_window);
+                this->displayToolsWithMenuNav(_window);
+            } else if (this->_currentTool != nullptr) {
+                this->_menu->displayMenuNav(_window);
+                this->displayToolsWithMenuNav(_window);
+            }
+        } //else {}
+        //else if (this->_menu->getToggle() == true && this->_currentTool != nullptr) {
+        //}
     }
+
+    //for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+    //        Tool *cache = *it;
+    //        if (cache->getToggle() == true) {}
+    //}
+
     wrefresh(_window);
     return (0);
 }

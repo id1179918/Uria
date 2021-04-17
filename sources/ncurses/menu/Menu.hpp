@@ -1,3 +1,19 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #ifndef MENU_HPP_
 #define MENU_HPP_
 
@@ -12,6 +28,7 @@ class Menu {
         ~Menu();
 
         void displayMenuTyping(WINDOW *);
+        void displayMenuNavSelected(WINDOW *);
         void displayMenuNav(WINDOW *);
 
         void changeMenuToolSelectionAbove(Tool *);

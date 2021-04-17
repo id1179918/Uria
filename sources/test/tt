@@ -1,0 +1,52 @@
+switch ((int) event) {
+        case Keys::Key::K_LEFT:
+            this->changeCurrentToolLeft();
+            break;
+        case Keys::Key::K_RIGHT:
+            this->changeCurrentToolRight();
+            break;
+        default:
+            if (this->_menu->getToggle() == true) {
+                switch ((int) event) {
+                    default:
+                        if (this->_currentTool == nullptr) {
+                            switch ((int) event) {
+                                case Keys::Key::K_UP:
+                                    this->_menu->changeMenuToolSelectionAbove(this->_menu->getHighlightedTool());
+                                    this->_currentTool = this->_menu->getHighlightedTool();
+                                    break;
+                                case Keys::Key::K_DOWN:
+                                    this->_menu->changeMenuToolSelectionBelow(this->_menu->getHighlightedTool());
+                                    this->_currentTool = this->_menu->getHighlightedTool();
+                                    break;
+                                case Keys::Key::K_RETURN:
+                                    // if ScreenSetup::WIDE
+                                        // if enabled Tool is Top and selected to is Top || enabled Tool is Bot and selected to is Bot
+                                            // this->_screenSetup = InterfaceTool::ScreenSetup::SPLITED_V;
+                                        // if . . . Top ... Bot || ... Bot ... Top
+                                            // this->_screenSetup = InterfaceTool::ScreenSetup::SPLITED_H;
+                                        // enable selected tool
+                                        // enable selected tool
+                                    // else if ScreenSetup::SPLITED_V
+                                        // if selectedToolType = TOP
+                                            // unable unused tool (TYPE TOP)
+                                            // enable selected tool
+                                        // else if selectedToolType = BOT
+                                            // unable unused tool (TYPE BOT)
+                                            // enable selected tool
+                                    // else if ScreenSetup::SPLITED_H
+                                    // else if ScreenSetup::SPLITED_VH
+                                    if (this->_screenSetup = InterfaceTool::ScreenSetup::NONE) {
+                                        this->_menu->getHighlightedTool()->setToggle(true);
+                                        this->_screenSetup = InterfaceTool::ScreenSetup::WIDE;
+                                    }
+                                    break;
+                            }
+                        } else if (this->_currentTool != nullptr) {
+                        
+                        }
+                        break;
+                }
+            } // else {}
+        break;
+    }

@@ -1,20 +1,41 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #ifndef CORE_HPP_
 #define CORE_HPP_
 
+extern "C" {
+    #include <time.h>
+    #include <ctype.h>
+    #include <curses.h>
+    #include <ncurses.h>
+    #include <signal.h>
+    #include <stdlib.h>
+    #include <sys/ioctl.h>
+    #include <unistd.h>
+    #include <term.h>
+}
+
+#include <ctime>
 #include <algorithm>
 #include <cstring>
-#include <ctype.h>
-#include <curses.h>
 #include <exception>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
-#include <ncurses.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
-#include <term.h>
 #include <list>
 
 class InterfaceTool;

@@ -1,3 +1,18 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
 
 #include "Errors.hpp"
 

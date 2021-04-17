@@ -1,3 +1,19 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #include "Core.hpp"
 #include "InterfaceTool.hpp"
 #include "../errors/Errors.hpp"
@@ -53,6 +69,8 @@ void Core::initColor()
     //Black police
     init_pair(15, COLOR_BLACK, COLOR_GREEN);
 
+    init_pair(16, COLOR_MAGENTA, COLOR_CYAN);
+
     init_color(COLOR_BLACK, 0, 0, 0);
     return;
 }
@@ -107,7 +125,7 @@ Keys::Key Core::getInput()
             return (Keys::K_J);
             break;
         case 'k':
-            return (Keys::K_K);
+            return (Keys::K_CONTROL);
             break;
         case 'l':
             return (Keys::K_L);

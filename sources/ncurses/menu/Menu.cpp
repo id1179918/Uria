@@ -1,3 +1,19 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #include "Core.hpp"
 #include "Ncurses.hpp"
 #include "InterfaceTool.hpp"
@@ -60,17 +76,24 @@ void Menu::changeMenuToolSelectionBelow(Tool *tool)
 
 void Menu::displayMenuTyping(WINDOW *_window)
 {
-    rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
+    int verticalOffset = 6;
+
+    rectangle(1, 1, 14, (LINES - 2), _window);
     wattron(_window, COLOR_PAIR(2));
-    mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
+    mvwprintw(_window, 2, 6, "MENU");
     wattroff(_window, COLOR_PAIR(2));
-    mvwprintw(_window, (LINES - LINES) + 6, (COLS - COLS) + 5, "NOTEPAD");
-    mvwprintw(_window, (LINES - LINES) + 8, (COLS - COLS) + 4, "REMINDER");
-    mvwprintw(_window, (LINES - LINES) + 10, (COLS - COLS) + 4, "CALENDAR");
+    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), this->_highlightTool->getName()) == 0)
+                mvwprintw(_window, verticalOffset, 4, this->_highlightTool->getName());
+            else
+                mvwprintw(_window, verticalOffset, 4, readingTool->getName());
+            verticalOffset += 2;
+    }
     return;
 }
 
-void Menu::displayMenuNav(WINDOW *_window)
+void Menu::displayMenuNavSelected(WINDOW *_window)
 {
     int verticalOffset = 6;
 
@@ -89,6 +112,23 @@ void Menu::displayMenuNav(WINDOW *_window)
             } else {
                 mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, readingTool->getName());
             }
+            verticalOffset += 2;
+    }
+    return;
+}
+
+void Menu::displayMenuNav(WINDOW *_window)
+{
+    int verticalOffset = 6;
+
+    rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
+    mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
+    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), this->_highlightTool->getName()) == 0)
+                mvwprintw(_window, verticalOffset, 4, this->_highlightTool->getName());
+            else
+                mvwprintw(_window, verticalOffset, 4, readingTool->getName());
             verticalOffset += 2;
     }
     return;

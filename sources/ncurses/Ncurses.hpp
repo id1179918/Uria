@@ -1,3 +1,19 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #include <ncurses.h>
 #include <iostream>
 

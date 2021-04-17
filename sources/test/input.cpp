@@ -1,3 +1,19 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2020
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #include <iostream>
 using namespace std;
 

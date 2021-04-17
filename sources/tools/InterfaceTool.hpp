@@ -1,3 +1,19 @@
+/*
+-
+  -
+    -
+  -
+-
+Uria - 2021
+
+Thomas ROUSTAN
+-
+  -
+    -
+  -
+-
+*/
+
 #ifndef INTERFACE_TOOL_HPP_
 #define INTERFACE_TOOL_HPP_
 
@@ -43,10 +59,20 @@ class InterfaceTool {
 
         Tool *getSpecificTool(const char *);
 
+        void changeCurrentToolLeft(void);
+        void changeCurrentToolRight(void);
+
+        // displaying
+
+        // functions responsible for displaying the tools, given the menu is toggled or not
+        void displayToolsWithMenuNav(WINDOW *);
+        void displayToolsWithMenuTyp(WINDOW *);
+
+        // dev
         std::ofstream myfile;
 
     private:
-        ScreenSetup _screenSetup;
+        InterfaceTool::ScreenSetup _screenSetup;
 
         InterfaceTool::KeyboardScope _keyboardMode;
 
