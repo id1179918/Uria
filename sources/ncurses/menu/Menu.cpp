@@ -29,9 +29,15 @@ Menu::Menu(std::vector<Tool *> tools)
 Menu::~Menu()
 {}
 
-bool Menu::getToggle()
+bool Menu::getToggle(void)
 {
     return (this->_toggle);
+}
+
+void Menu::setToogle(void)
+{
+    this->_toggle = !(this->_toggle);
+    return;
 }
 
 Tool *Menu::getHighlightedTool(void)
@@ -117,7 +123,7 @@ void Menu::displayMenuNavSelected(WINDOW *_window)
     return;
 }
 
-void Menu::displayMenuNav(WINDOW *_window)
+void Menu::displayMenu(WINDOW *_window)
 {
     int verticalOffset = 6;
 

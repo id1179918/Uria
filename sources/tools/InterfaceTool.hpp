@@ -58,6 +58,7 @@ class InterfaceTool {
         void setKBMode(void);
 
         Tool *getSpecificTool(const char *);
+        int getCurrentToolIndex(void);
 
         void changeCurrentToolLeft(void);
         void changeCurrentToolRight(void);
@@ -67,6 +68,8 @@ class InterfaceTool {
         // functions responsible for displaying the tools, given the menu is toggled or not
         void displayToolsWithMenuNav(WINDOW *);
         void displayToolsWithMenuTyp(WINDOW *);
+        void displayToolsWithoutMenuNav(WINDOW *);
+        void displayToolsWithoutMenuTyp(WINDOW *);
 
         // dev
         std::ofstream myfile;

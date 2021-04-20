@@ -29,13 +29,14 @@ class Menu {
 
         void displayMenuTyping(WINDOW *);
         void displayMenuNavSelected(WINDOW *);
-        void displayMenuNav(WINDOW *);
+        void displayMenu(WINDOW *);
 
         void changeMenuToolSelectionAbove(Tool *);
         void changeMenuToolSelectionBelow(Tool *);
 
         Tool *getHighlightedTool(void);
-        bool getToggle();
+        bool getToggle(void);
+        void setToogle(void);
     private:
         Tool *_highlightTool;
         bool _toggle;

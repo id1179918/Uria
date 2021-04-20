@@ -175,6 +175,13 @@ Keys::Key Core::getInput()
         case '\033':
             wgetch(this->_window);
             switch (wgetch(this->_window)) {
+                case '3':
+                    switch (wgetch(this->_window)) {
+                        case '~':
+                            return (Keys::K_CLOSE);
+                            break;
+                    }
+                    break;
                 case 'A':
                     return (Keys::K_UP);
                     break;

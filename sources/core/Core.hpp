@@ -77,7 +77,8 @@ namespace Keys {
         K_BACKSPACE,
         K_EXIT,
     	K_UNDEFINED,
-        K_CONTROL
+        K_CONTROL,
+        K_CLOSE
     };
 };
 

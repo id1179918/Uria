@@ -85,9 +85,42 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
         std::cerr << "Uria error from InterfaceTool displaying module: " << e.what() << std::endl;
     }
     return;
-    return;
 }
-//
+
+void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
+{
+    try {
+        for (int it = 0; it != (int) this->_tools.size(); it++) {
+            if (this->_tools[it]->getToggle() == true) {
+                if (this->_tools[it] == this->_currentTool) {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            wattron(_window, COLOR_PAIR(3));
+                            rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
+                            wattroff(_window, COLOR_PAIR(3));
+                            break;
+                    }
+                } else {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            break;
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from InterfaceTool displaying module: " << e.what() << std::endl;
+    }
+    return;
+
+}
+
+
 //void Tool::displayToolWideWithoutMenu(WINDOW *_window)
 //{
 //    return;
@@ -227,6 +260,15 @@ int InterfaceTool::initTools()
     return (0);
 }
 
+int InterfaceTool::getCurrentToolIndex(void)
+{
+    for (int it = 0; it <= (int) this->_tools.size() - 1; it++) {
+        if (this->_tools[it] == this->_currentTool)
+            return (it);
+    }
+    return (0);
+}
+
 int InterfaceTool::handleInputsTyping(Keys::Key event)
 {
     switch ((int) event) {
@@ -239,6 +281,42 @@ int InterfaceTool::handleInputsTyping(Keys::Key event)
 int InterfaceTool::handleInputsNav(Keys::Key event)
 {
     switch ((int) event) {
+        case Keys::Key::K_CLOSE:
+            if (this->_menu->getToggle() == true) {
+                if (this->_currentTool == nullptr) {
+                    this->_menu->setToogle();
+                    for (int n = (int) this->_tools.size() - 1; n >= 0; n--) {
+                        if (this->_tools[n]->getToggle() == true) {
+                            this->_currentTool = this->_tools[n];
+                            return (0);
+                        }
+                    }
+                } else {
+                    int index = this->getCurrentToolIndex();
+                    for (int n = index - 1; n >= 0; n--) {
+                        if (this->_tools[n]->getToggle() == true) {
+                            this->_currentTool = this->_tools[n];
+                            return (0);
+                        }
+                    }
+                    this->_currentTool = nullptr;
+                }
+            } else {
+                int index = this->getCurrentToolIndex();
+                for (int n = index - 1; n >= 0; n--) {
+                    if (this->_tools[n]->getToggle() == true) {
+                        this->_currentTool = this->_tools[n];
+                        return (0);
+                    }
+                }
+                for (int n = (int) this->_tools.size() - 1; n >= index; n--) {
+                    if (this->_tools[n]->getToggle() == true) {
+                        this->_currentTool = this->_tools[n];
+                        return (0);
+                    }
+                }
+            }
+            break;
         case Keys::Key::K_LEFT:
             this->changeCurrentToolLeft();
             break;
@@ -303,6 +381,7 @@ int InterfaceTool::update(Keys::Key event)
 
 int InterfaceTool::render(WINDOW *_window)
 {
+    wclear(_window);
     //Global rectangle frame
     rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
     //Menu config
@@ -314,9 +393,11 @@ int InterfaceTool::render(WINDOW *_window)
             if (this->_currentTool == nullptr) {
                 this->_menu->displayMenuTyping(_window);
             } else if (this->_currentTool != nullptr) {
-                this->_menu->displayMenuNav(_window);
+                this->_menu->displayMenu(_window);
                 this->displayToolsWithMenuTyp(_window);
             }
+        } else {
+            // /this->displayToolsWithoutMenuTyp(_window);
         }
     } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
         if (this->_menu->getToggle() == true) {
@@ -324,19 +405,15 @@ int InterfaceTool::render(WINDOW *_window)
                 this->_menu->displayMenuNavSelected(_window);
                 this->displayToolsWithMenuNav(_window);
             } else if (this->_currentTool != nullptr) {
-                this->_menu->displayMenuNav(_window);
+                this->_menu->displayMenu(_window);
                 this->displayToolsWithMenuNav(_window);
             }
-        } //else {}
+        } else {
+            this->displayToolsWithoutMenuNav(_window);
+        }
         //else if (this->_menu->getToggle() == true && this->_currentTool != nullptr) {
         //}
     }
-
-    //for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
-    //        Tool *cache = *it;
-    //        if (cache->getToggle() == true) {}
-    //}
-
     wrefresh(_window);
     return (0);
 }
