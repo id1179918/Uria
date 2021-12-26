@@ -97,6 +97,42 @@ void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
                         case InterfaceTool::ScreenSetup::NONE:
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
+                            wattron(_window, COLOR_PAIR(5));
+                            rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
+                            wattroff(_window, COLOR_PAIR(5));
+                            wattron(_window, COLOR_PAIR(16));
+                            mvwprintw(_window, (LINES - 2), 2, this->_tools[it]->getName());
+                            wattroff(_window, COLOR_PAIR(16));
+                            break;
+                    }
+                } else {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
+                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            break;
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Uria error from InterfaceTool displaying module: " << e.what() << std::endl;
+    }
+    return;
+}
+
+
+void InterfaceTool::displayToolsWithoutMenuTyp(WINDOW *_window)
+{
+    try {
+        for (int it = 0; it != (int) this->_tools.size(); it++) {
+            if (this->_tools[it]->getToggle() == true) {
+                if (this->_tools[it] == this->_currentTool) {
+                    switch ((int) this->_screenSetup) {
+                        case InterfaceTool::ScreenSetup::NONE:
+                            break;
+                        case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(3));
                             rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(3));
@@ -117,14 +153,8 @@ void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
         std::cerr << "Uria error from InterfaceTool displaying module: " << e.what() << std::endl;
     }
     return;
-
+    return;
 }
-
-
-//void Tool::displayToolWideWithoutMenu(WINDOW *_window)
-//{
-//    return;
-//}
 
 
 InterfaceTool::InterfaceTool()
@@ -397,7 +427,7 @@ int InterfaceTool::render(WINDOW *_window)
                 this->displayToolsWithMenuTyp(_window);
             }
         } else {
-            // /this->displayToolsWithoutMenuTyp(_window);
+            this->displayToolsWithoutMenuTyp(_window);
         }
     } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
         if (this->_menu->getToggle() == true) {

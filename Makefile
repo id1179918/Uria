@@ -1,3 +1,20 @@
+#					#
+# 	-				#
+# 	  -				#
+# 	    -			#
+# 	  -				#
+# 	-				#
+# 	Uria - 2021		#
+# 					#
+# 	Thomas ROUSTAN	#
+#	Makefile		#
+# 	-				#
+# 	  -				#
+# 	    -			#
+# 	  -				#
+# 	-				#
+#					#
+
 CC		= g++
 RM		= rm -rf
 NAME	= uria
