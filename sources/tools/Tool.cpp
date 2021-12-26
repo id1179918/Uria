@@ -53,3 +53,14 @@ void Tool::setIsUse(bool inUse)
     this->_inUse = inUse;
     return;
 }
+
+std::vector<int> Tool::getCursor(void)
+{
+    return (this->_cursor);
+}
+
+void Tool::setCursor(std::vector<int> cursor)
+{
+    this->_cursor = cursor;
+    return;
+}

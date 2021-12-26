@@ -38,6 +38,9 @@ class Tool {
         void setIsUse(bool);
         const char *getName();
 
+        std::vector<int> getCursor(void);
+        void setCursor(std::vector<int>);
+
         void setTime(std::time_t);
         std::time_t getTime();
 
@@ -45,6 +48,7 @@ class Tool {
         //void displayToolWideWithoutMenu(WINDOW *);
 
     private:
+        std::vector<int> _cursor;
         const char *_name;
         bool _inUse;
         bool _toggle;
