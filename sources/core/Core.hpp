@@ -27,16 +27,22 @@ extern "C" {
     #include <sys/ioctl.h>
     #include <unistd.h>
     #include <term.h>
+    #include <errno.h>
+    #include <fcntl.h>
+    #include <stdio.h>
 }
 
 #include <ctime>
 #include <algorithm>
 #include <cstring>
+#include <string>
 #include <exception>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <list>
+
+#define BUFFER_SIZE 100
 
 class InterfaceTool;
 
@@ -93,6 +99,10 @@ class Core {
         void initColor();
 
         int run();
+        int runClient();
+        int runIOHandler();
+        Keys::Key getEvent();
+
         Keys::Key getInput();
         void setIsRunning(bool);
 
@@ -110,6 +120,13 @@ class Core {
 
         bool _isRunning;
         InterfaceTool *_toolInterface;
+
+        int initPipeCommunicationHandler();
+        fd_set _ioReadFd;
+        struct timeval _timeout;
+        int _pipes[2]; // Pipe file descriptors
+        char _pipeBuffer[BUFFER_SIZE]; // Buffer for reading from pipe
+        pid_t _io_pid;
 };
 
 #endif

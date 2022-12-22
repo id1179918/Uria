@@ -18,7 +18,7 @@ Thomas ROUSTAN
 #define TOOL_HPP_
 
 #include <iostream>
-
+#include <vector>
 
 #include "Core.hpp"
 
@@ -48,7 +48,7 @@ class Tool {
         //void displayToolWideWithoutMenu(WINDOW *);
 
     private:
-        std::vector<int> _cursor;
+        std::vector<int> _cursors;
         const char *_name;
         bool _inUse;
         bool _toggle;
