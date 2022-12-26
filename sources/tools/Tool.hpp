@@ -24,6 +24,11 @@ Thomas ROUSTAN
 
 class Tool {
 
+    typedef struct bounds {
+      int x;
+      int y;
+    }bounds_t;
+
     enum ToolPos {
         TOP,
         BOT
@@ -40,6 +45,9 @@ class Tool {
 
         std::vector<int> getCursor(void);
         void setCursor(std::vector<int>);
+        
+        std::vector<bounds_t> getBounds(void);
+        void setBounds(std::vector<bounds_t>);
 
         void setTime(std::time_t);
         std::time_t getTime();
@@ -49,6 +57,7 @@ class Tool {
 
     private:
         std::vector<int> _cursors;
+        std::vector<bounds_t> _bounds;
         const char *_name;
         bool _inUse;
         bool _toggle;

@@ -20,6 +20,9 @@ Thomas ROUSTAN
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+
+std::ofstream out("IO.txt");
 
 void Core::setWindow(WINDOW *win)
 {
@@ -111,7 +114,7 @@ int Core::init()
     } else if (this->_io_pid == 0) {
         FD_ZERO(&this->_ioReadFd);
         FD_SET(0, &this->_ioReadFd);
-        this->_timeout.tv_sec = 1;
+        this->_timeout.tv_sec = 100;
         this->_timeout.tv_usec = 0;
         this->_window = NULL;
         this->_toolInterface = NULL;
@@ -119,10 +122,9 @@ int Core::init()
     return (0);
 }
 
-Keys::Key Core::getInput()
+Keys::Key Core::getInput(int key)
 {
-    int key = wgetch(this->_window);
-
+    out << key << std::endl;
     switch (key) {
         case 'a':
             return (Keys::K_A);
@@ -155,7 +157,7 @@ Keys::Key Core::getInput()
             return (Keys::K_J);
             break;
         case 'k':
-            return (Keys::K_CONTROL);
+            return (Keys::K_K);
             break;
         case 'l':
             return (Keys::K_L);
@@ -202,44 +204,43 @@ Keys::Key Core::getInput()
         case 'z':
             return (Keys::K_Z);
             break;
-        case '\033':
-            wgetch(this->_window);
-            switch (wgetch(this->_window)) {
-                case '3':
-                    switch (wgetch(this->_window)) {
-                        case '~':
-                            return (Keys::K_CLOSE);
-                            break;
-                    }
-                    break;
-                case 'A':
-                    return (Keys::K_UP);
-                    break;
-                case 'B':
-                    return (Keys::K_DOWN);
-                    break;
-                case 'C':
-                    return (Keys::K_RIGHT);
-                    break;
-                case 'D':
-                    return (Keys::K_LEFT);
-                    break;
-                default:
-                    return (Keys::K_EXIT);
-                    break;
-
-            }
-            break;
+        //case '\033':
+        //    wgetch(this->_window);
+        //    switch (wgetch(this->_window)) {
+        //        case '3':
+        //            switch (wgetch(this->_window)) {
+        //                case '~':
+        //                    return (Keys::K_CLOSE);
+        //                    break;
+        //            }
+        //            break;
+        //        case 'A':
+        //            return (Keys::K_UP);
+        //            break;
+        //        case 'B':
+        //            return (Keys::K_DOWN);
+        //            break;
+        //        case 'C':
+        //            return (Keys::K_RIGHT);
+        //            break;
+        //        case 'D':
+        //            return (Keys::K_LEFT);
+        //            break;
+        //        default:
+        //            return (Keys::K_EXIT);
+        //            break;
+        //    }
+        //    break;
         case ' ':
             return (Keys::K_SPACE);
             break;
-        case KEY_BACKSPACE:
+        case '\177':
             return (Keys::K_BACKSPACE);
             break;
-        case '\n':
+        case '\r':
             return (Keys::K_RETURN);
             break;
-        case KEY_BTAB:
+        case '\t':
             return (Keys::K_CONTROL);
             break;
         default:
@@ -276,29 +277,27 @@ int Core::runIOHandler() {
             continue;
         }
     }
-    close(this->_pipes[1]);  //
+    close(this->_pipes[1]);
     return (0);
 }
 
 Keys::Key Core::getEvent() {
+    int c_ascii;
+
     close(this->_pipes[1]);  // close the write end of the pipe
-    int c;
+    signal(SIGINT, sigintEventHandler); 
 
     //IO test
-    //std::ofstream out("IO.txt");
 
     while (1) {
-        int n = read(this->_pipes[0], &c, sizeof(c));  // read from the pipe
+        int n = read(this->_pipes[0], &c_ascii, sizeof(c_ascii));  // read from the pipe
         if (n < 0) {
             if (errno == EAGAIN)  // no data available
                 continue;
             else
                 perror("read");
-        } else {
-            //IO test
-            //out << c << std::endl;
-            //parse interger to Keys::Key
-            continue;
+        } else { 
+            return this->getInput(c_ascii);
         }
     }
     close(this->_pipes[0]); 
@@ -307,6 +306,8 @@ Keys::Key Core::getEvent() {
 int Core::runClient() {
     int exitCode = 0;
     Keys::Key event;
+    //std::ofstream out("IO.txt");
+    
     int flags = fcntl(this->_pipes[0], F_GETFL, 0);
     
     fcntl(this->_pipes[0], F_SETFL, flags | O_NONBLOCK);
@@ -318,8 +319,9 @@ int Core::runClient() {
             this->setIsRunning(false);
         }
         wrefresh(this->_window);
+        //out << (int)event << std::endl;
         exitCode = this->getTools()->update(event);
-        exitCode = this->getTools()->render(this->_window);
+        //exitCode = this->getTools()->render(this->_window);
     }
     return exitCode;
 }

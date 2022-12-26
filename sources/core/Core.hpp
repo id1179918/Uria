@@ -103,7 +103,7 @@ class Core {
         int runIOHandler();
         Keys::Key getEvent();
 
-        Keys::Key getInput();
+        Keys::Key getInput(int);
         void setIsRunning(bool);
 
         // Window settings

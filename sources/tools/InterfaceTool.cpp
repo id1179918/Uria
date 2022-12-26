@@ -394,7 +394,7 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
 
 int InterfaceTool::update(Keys::Key event)
 {
-    switch ((int) event) {
+    switch (event) {
         case Keys::K_CONTROL:
             this->setKBMode();
             break;
