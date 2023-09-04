@@ -26,6 +26,7 @@ Thomas ROUSTAN
 class InterfaceTool {
     public:
         InterfaceTool();
+        InterfaceTool(WINDOW *);
         ~InterfaceTool();
 
         enum ScreenSetup {
@@ -72,7 +73,31 @@ class InterfaceTool {
         void displayToolsWithoutMenuTyp(WINDOW *);
 
         // dev
-        std::ofstream myfile;
+          std::ofstream myfile;
+          //Use to debug directly on terminal window
+          WINDOW *_window;
+
+          const char *screenSetupToString() {
+            switch (this->_screenSetup)
+            {
+            case ScreenSetup::WIDE:
+              return "WIDE";
+              break;
+            case ScreenSetup::SPLITED_V:
+              return "SPLITED_V";
+              break;
+            case ScreenSetup::SPLITED_H:
+              return "SPLITED_H";
+              break;
+            case ScreenSetup::SPLITED_VH:
+              return "SPLITED_VH";
+              break;
+            case ScreenSetup::NONE:
+              return "NONE";
+              break;
+            }
+            return "NONE";
+          }
 
     private:
         InterfaceTool::ScreenSetup _screenSetup;
