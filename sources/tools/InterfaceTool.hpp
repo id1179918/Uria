@@ -64,6 +64,8 @@ class InterfaceTool {
         void changeCurrentToolLeft(void);
         void changeCurrentToolRight(void);
 
+        void toogleOffAllTools(void);
+
         // displaying
 
         // functions responsible for displaying the tools, given the menu is toggled or not

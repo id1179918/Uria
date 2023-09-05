@@ -24,8 +24,9 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
 {
     try {
         for (int it = 0; it != (int) this->_tools.size(); it++) {
+            mvwprintw(_window, 9 + it , 100, this->_tools[it]->getName());
+            mvwprintw(_window, 9 + it , 150, this->_tools[it]->getToggle() == true ? "true" : "false");
             if (this->_tools[it]->getToggle() == true) {
-                //mvwprintw(_window, 7, 100, this->_tools[it]->getName());
                 if (this->_tools[it] == this->_currentTool) {
                     switch ((int) this->_screenSetup) {
                         case InterfaceTool::ScreenSetup::NONE:
@@ -307,6 +308,14 @@ Tool *InterfaceTool::getSpecificTool(const char *name)
     return (nullptr);
 }
 
+void InterfaceTool::toogleOffAllTools(void)
+{
+    for (int it = 0; it <= (int) this->_tools.size() - 1; it++) {
+        this->_tools[it]->setToggle(false);
+    }
+    return;
+}
+
 int InterfaceTool::initTools()
 {
     return (0);
@@ -397,7 +406,7 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
                         this->_screenSetup = InterfaceTool::ScreenSetup::WIDE;
                         return (0);
                     } else if (this->_screenSetup == InterfaceTool::ScreenSetup::WIDE) {
-                        this->_tools[this->getCurrentToolIndex()]->setToggle(false);
+                        this->toogleOffAllTools();
                         this->_menu->getHighlightedTool()->setToggle(true);
                         this->_currentTool = this->_tools[this->getCurrentToolIndex()];
                         return (0);
@@ -409,7 +418,6 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
                             // this->_screenSetup = InterfaceTool::ScreenSetup::SPLITED_H;
                         // enable selected tool
                         // enable selected tool
-                    this->_currentTool = this->_menu->getHighlightedTool();
                 }
             }
             break;
