@@ -27,6 +27,8 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
             mvwprintw(_window, 9 + it , 100, this->_tools[it]->getName());
             mvwprintw(_window, 9 + it , 150, this->_tools[it]->getToggle() == true ? "true" : "false");
             if (this->_tools[it]->getToggle() == true) {
+                mvwprintw(_window, 15 , 150, this->_tools[this->getCurrentToolIndex()]->getName());
+                //mvwprintw(_window, 16 , 150, this->_currentTool->getName());
                 if (this->_tools[it] == this->_currentTool) {
                     switch ((int) this->_screenSetup) {
                         case InterfaceTool::ScreenSetup::NONE:
@@ -407,8 +409,9 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
                         return (0);
                     } else if (this->_screenSetup == InterfaceTool::ScreenSetup::WIDE) {
                         this->toogleOffAllTools();
-                        this->_menu->getHighlightedTool()->setToggle(true);
-                        this->_currentTool = this->_tools[this->getCurrentToolIndex()];
+                        this->_currentTool = NULL;
+                        this->_currentTool = this->_menu->getHighlightedTool();
+                        this->_currentTool->setToggle(true);
                         return (0);
                     }
                     // if ScreenSetup::WIDE
