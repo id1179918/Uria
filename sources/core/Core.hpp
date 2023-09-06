@@ -38,10 +38,8 @@ extern "C" {
 #include <iomanip>
 #include <list>
 
-<<<<<<< Updated upstream
 #include "FileManager.hpp"
 #include "Keys.hpp"
-=======
 typedef struct ScreenCoordenates {
   int x, y;
   int menu_origin_x, menu_origin_y, menu_end_x, menu_end_y;
@@ -50,7 +48,6 @@ typedef struct ScreenCoordenates {
 } screenCoords_t;
 
 class InterfaceTool;
->>>>>>> Stashed changes
 
 #define BUFFER_SIZE 100
 
