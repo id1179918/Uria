@@ -27,15 +27,11 @@ extern "C" {
     #include <sys/ioctl.h>
     #include <unistd.h>
     #include <term.h>
-    #include <errno.h>
-    #include <fcntl.h>
-    #include <stdio.h>
 }
 
 #include <ctime>
 #include <algorithm>
 #include <cstring>
-#include <string>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -61,11 +57,7 @@ class Core {
         void initColor();
 
         int run();
-        int runClient();
-        int runIOHandler();
-        Keys::Key getEvent();
-
-        Keys::Key getInput(int);
+        Keys::Key getInput();
         void setIsRunning(bool);
 
         // Window settings

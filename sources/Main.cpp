@@ -22,12 +22,8 @@ int main()
     Core *core;
 
     core = new Core();
-    exitCode = core->init();
-    if (exitCode != 0)
-      exit(84);
-    else {
-      core->run();
-    }
-
+    core->init();
+    printf("initiated\n");
+    core->run();
     return (exitCode);
 }

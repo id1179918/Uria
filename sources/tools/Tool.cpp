@@ -56,11 +56,11 @@ void Tool::setIsUse(bool inUse)
 
 std::vector<int> Tool::getCursor(void)
 {
-    return (this->_cursors);
+    return (this->_cursor);
 }
 
 void Tool::setCursor(std::vector<int> cursor)
 {
-    this->_cursors = cursor;
+    this->_cursor = cursor;
     return;
 }
