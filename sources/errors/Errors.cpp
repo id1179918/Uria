@@ -16,8 +16,10 @@ Thomas ROUSTAN
 
 #include "Errors.hpp"
 
-Errors::Errors(std::ostream &stream, const std::string &msg) throw()
-	: _ostream(stream), _output(msg) {}
+Errors::Errors(std::ostream &stream, const std::string &msg) throw() {
+  this->_ostream = stream;
+  this->_output = msg;
+}
 
 Errors::~Errors(void) throw() {}
 

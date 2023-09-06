@@ -42,51 +42,13 @@ extern "C" {
 #include <iomanip>
 #include <list>
 
+#include "FileManager.hpp"
+#include "Keys.hpp"
+
 #define BUFFER_SIZE 100
 
 class InterfaceTool;
-
-namespace Keys {
-    enum Key {
-        K_A,
-        K_B,
-        K_C,
-        K_D,
-    	K_E,
-        K_F,
-        K_G,
-        K_H,
-        K_I,
-        K_J,
-        K_K,
-        K_L,
-        K_M,
-    	K_N,
-    	K_O,
-        K_P,
-        K_Q,
-        K_R,
-    	K_S,
-        K_T,
-        K_U,
-        K_V,
-        K_W,
-        K_X,
-        K_Y,
-        K_Z,
-    	K_UP,
-    	K_DOWN,
-    	K_LEFT,
-    	K_RIGHT,
-    	K_SPACE,
-        K_RETURN,
-        K_BACKSPACE,
-        K_EXIT,
-    	K_UNDEFINED,
-        K_CONTROL,
-        K_CLOSE
-    };
-};
+class FileManager;
 
 class Core {
     public:
@@ -111,15 +73,18 @@ class Core {
         WINDOW *getWindow();
 
         InterfaceTool *getTools(void);
+        FileManager *fileManager(void);
 
         void setKBMode(void);
 
     private:
         WINDOW *_window;
         int _height, _width, _row, _col;
-
         bool _isRunning;
+
         InterfaceTool *_toolInterface;
+
+        FileManager *_fileManager;
 
         int initPipeCommunicationHandler();
         fd_set _ioReadFd;

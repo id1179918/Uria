@@ -254,6 +254,10 @@ InterfaceTool *Core::getTools(void) {
     return (this->_toolInterface);
 }
 
+FileManager *Core::fileManager(void) {
+    return (this->_fileManager);
+}
+
 void Core::setIsRunning(bool state) {
     this->_isRunning = state;
     return;
@@ -320,6 +324,9 @@ int Core::runClient() {
         }
         wrefresh(this->_window);
         //out << (int)event << std::endl;
+        exitCode = this->fileManager()->update(event);
+
+        // Ncurses Graphics
         exitCode = this->getTools()->update(event);
         //exitCode = this->getTools()->render(this->_window);
     }
