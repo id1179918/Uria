@@ -38,8 +38,19 @@ extern "C" {
 #include <iomanip>
 #include <list>
 
+<<<<<<< Updated upstream
 #include "FileManager.hpp"
 #include "Keys.hpp"
+=======
+typedef struct ScreenCoordenates {
+  int x, y;
+  int menu_origin_x, menu_origin_y, menu_end_x, menu_end_y;
+  int tool_origin_x_menu_active, tool_origin_y_menu_active, tool_end_x_menu_active, tool_end_y_menu_active;
+  int tool_origin_x_menu_unactive, tool_origin_y_menu_unactive, tool_end_x_menu_unactive, tool_end_y_menu_unactive;
+} screenCoords_t;
+
+class InterfaceTool;
+>>>>>>> Stashed changes
 
 #define BUFFER_SIZE 100
 
@@ -84,6 +95,7 @@ class Core {
         int _pipes[2]; // Pipe file descriptors
         char _pipeBuffer[BUFFER_SIZE]; // Buffer for reading from pipe
         pid_t _io_pid;
+        screenCoords_t *_coords;
 };
 
 #endif

@@ -64,3 +64,7 @@ void Tool::setCursor(std::vector<int> cursor)
     this->_cursor = cursor;
     return;
 }
+
+void Tool::setCursorChar(char c) {
+  this->_cursorChar = c;
+}

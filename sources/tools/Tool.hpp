@@ -42,6 +42,8 @@ class Tool {
         std::vector<int> getCursor(void);
         void setCursor(std::vector<int>);
 
+        void setCursorChar(char);
+
         void setTime(std::time_t);
         std::time_t getTime();
 
@@ -50,6 +52,7 @@ class Tool {
 
     private:
         std::vector<int> _cursor;
+        char _cursorChar;
         const char *_name;
         bool _inUse;
         bool _toggle;
