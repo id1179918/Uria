@@ -438,7 +438,7 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
                 if (this->_currentTool == nullptr) {
                     // if there's no current tool set
                     if (event == Keys::Key::K_RETURN) {
-                            break;
+                        break;
                     }
                 } //else if (this->_currentTool != nullptr) {}
             } else {
