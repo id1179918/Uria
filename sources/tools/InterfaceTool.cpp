@@ -68,11 +68,13 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(5));
                             rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
-                            
+                            mvwprintw(_window, 25 , 25, this->_currentTool->getCursorChar());
                             wattroff(_window, COLOR_PAIR(5));
                             wattron(_window, COLOR_PAIR(16));
                             mvwprintw(_window, (LINES - 2), (COLS - COLS + 15), this->_tools[it]->getName());
                             wattroff(_window, COLOR_PAIR(16));
+                            //mvwprintw(_window, this->_currentTool->getCursor().at(0) , this->_currentTool->getCursor().at(1), this->_currentTool->getCursorChar());
+                            myfile << this->_currentTool->getCursorChar() << std::endl;
                             break;
                     }
                 } else {
@@ -337,90 +339,105 @@ int InterfaceTool::handleInputsTyping(Keys::Key event)
 {
     //this->_currentTool->setCursorChar('');
     switch ((int) event) {
-        case Keys::K_A:
-            this->_currentTool->setCursorChar('a');
-            return (0);
-        case Keys::K_B:
-            this->_currentTool->setCursorChar('b');
-            return (0);
-        case Keys::K_C:
-            this->_currentTool->setCursorChar('c');
-            return (0);
-        case Keys::K_D:
-            this->_currentTool->setCursorChar('d');
-            return (0);
-        case Keys::K_E:
-            this->_currentTool->setCursorChar('e');
-            return (0);
-        case Keys::K_F:
-            this->_currentTool->setCursorChar('f');
-            return (0);
-        case Keys::K_G:
-            this->_currentTool->setCursorChar('g');
-            return (0);
-        case Keys::K_H:
-            this->_currentTool->setCursorChar('h');
-            return (0);
-        case Keys::K_I:
-            this->_currentTool->setCursorChar('i');
-            return (0);
-        case Keys::K_J:
-            this->_currentTool->setCursorChar('j');
-            return (0);
-        case Keys::K_K:
-            this->_currentTool->setCursorChar('k');
-            return (0);
-        case Keys::K_L:
-            this->_currentTool->setCursorChar('l');
-            return (0);
-        case Keys::K_M:
-            this->_currentTool->setCursorChar('m');
-            return (0);
-        case Keys::K_N:
-            this->_currentTool->setCursorChar('n');
-            return (0);
-        case Keys::K_O:
-            this->_currentTool->setCursorChar('o');
-            return (0);
-        case Keys::K_P:
-            this->_currentTool->setCursorChar('p');
-            return (0);
-        case Keys::K_Q:
-            this->_currentTool->setCursorChar('q');
-            return (0);
-        case Keys::K_R:
-            this->_currentTool->setCursorChar('r');
-            return (0);
-        case Keys::K_S:
-            this->_currentTool->setCursorChar('s');
-            return (0);
-        case Keys::K_T:
-            this->_currentTool->setCursorChar('t');
-            return (0);
-        case Keys::K_U:
-            this->_currentTool->setCursorChar('u');
-            return (0);
-        case Keys::K_V:
-            this->_currentTool->setCursorChar('v');
-            return (0);
-        case Keys::K_W:
-            this->_currentTool->setCursorChar('w');
-            return (0);
-        case Keys::K_X:
-            this->_currentTool->setCursorChar('x');
-            return (0);
-        case Keys::K_Y:
-            this->_currentTool->setCursorChar('y');
-            return (0);
-        case Keys::K_Z:
-            this->_currentTool->setCursorChar('z');
-            return (0);
-        case Keys::K_SPACE:
-            this->_currentTool->setCursorChar(' ');
-            return (0);
-        break;
-        //case (event < 26):
-        //    return (1);
+        case Keys::K_UP:
+        case Keys::K_CLOSE:
+        case Keys::K_DOWN:
+        case Keys::K_LEFT:
+        case Keys::K_RIGHT:
+        case Keys::K_RETURN:
+        case Keys::K_EXIT:
+        case Keys::K_UNDEFINED:
+        case Keys::K_CONTROL:
+            //delete queue when handling a sequence of special events
+          return (3);
+          break;
+        case Keys::K_BACKSPACE:
+          //handle deleting 1 char
+          return (1);
+          break;
+        default:
+            case Keys::K_A:
+                this->_currentTool->setCursorChar('a');
+                return (0);
+            case Keys::K_B:
+                this->_currentTool->setCursorChar('b');
+                return (0);
+            case Keys::K_C:
+                this->_currentTool->setCursorChar('c');
+                return (0);
+            case Keys::K_D:
+                this->_currentTool->setCursorChar('d');
+                return (0);
+            case Keys::K_E:
+                this->_currentTool->setCursorChar('e');
+                return (0);
+            case Keys::K_F:
+                this->_currentTool->setCursorChar('f');
+                return (0);
+            case Keys::K_G:
+                this->_currentTool->setCursorChar('g');
+                return (0);
+            case Keys::K_H:
+                this->_currentTool->setCursorChar('h');
+                return (0);
+            case Keys::K_I:
+                this->_currentTool->setCursorChar('i');
+                return (0);
+            case Keys::K_J:
+                this->_currentTool->setCursorChar('j');
+                return (0);
+            case Keys::K_K:
+                this->_currentTool->setCursorChar('k');
+                return (0);
+            case Keys::K_L:
+                this->_currentTool->setCursorChar('l');
+                return (0);
+            case Keys::K_M:
+                this->_currentTool->setCursorChar('m');
+                return (0);
+            case Keys::K_N:
+                this->_currentTool->setCursorChar('n');
+                return (0);
+            case Keys::K_O:
+                this->_currentTool->setCursorChar('o');
+                return (0);
+            case Keys::K_P:
+                this->_currentTool->setCursorChar('p');
+                return (0);
+            case Keys::K_Q:
+                this->_currentTool->setCursorChar('q');
+                return (0);
+            case Keys::K_R:
+                this->_currentTool->setCursorChar('r');
+                return (0);
+            case Keys::K_S:
+                this->_currentTool->setCursorChar('s');
+                return (0);
+            case Keys::K_T:
+                this->_currentTool->setCursorChar('t');
+                return (0);
+            case Keys::K_U:
+                this->_currentTool->setCursorChar('u');
+                return (0);
+            case Keys::K_V:
+                this->_currentTool->setCursorChar('v');
+                return (0);
+            case Keys::K_W:
+                this->_currentTool->setCursorChar('w');
+                return (0);
+            case Keys::K_X:
+                this->_currentTool->setCursorChar('x');
+                return (0);
+            case Keys::K_Y:
+                this->_currentTool->setCursorChar('y');
+                return (0);
+            case Keys::K_Z:
+                this->_currentTool->setCursorChar('z');
+                return (0);
+            case Keys::K_SPACE:
+                this->_currentTool->setCursorChar(' ');
+                return (0);
+            break;
     }
     return (0);
 }
@@ -535,6 +552,8 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
 
 int InterfaceTool::update(Keys::Key event)
 {
+    int exitCode;
+
     switch ((int) event) {
         case Keys::K_M:
             this->_menu->setToogle();
@@ -546,7 +565,10 @@ int InterfaceTool::update(Keys::Key event)
             if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
                 this->handleInputsNav(event);
             } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
-                this->handleInputsTyping(event);
+                exitCode = this->handleInputsTyping(event);
+                if (exitCode == 0) {
+                    this->_currentTool->setCursor(this->_currentTool->findCursorNextPosition());
+                }
             }
             break;
     }

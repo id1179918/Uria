@@ -42,7 +42,10 @@ class Tool {
         std::vector<int> getCursor(void);
         void setCursor(std::vector<int>);
 
+        const char *getCursorChar(void);
         void setCursorChar(char);
+
+        std::vector<int> findCursorNextPosition();
 
         void setTime(std::time_t);
         std::time_t getTime();
@@ -51,6 +54,7 @@ class Tool {
         //void displayToolWideWithoutMenu(WINDOW *);
 
     private:
+        std::ofstream myfile;
         std::vector<int> _cursor;
         char _cursorChar;
         const char *_name;

@@ -23,6 +23,7 @@ Tool::Tool(const char *name)
 {
     this->_name = name;
     this->_toggle = false;
+    this->myfile.open("test.txt");
 }
 
 Tool::~Tool()
@@ -65,6 +66,74 @@ void Tool::setCursor(std::vector<int> cursor)
     return;
 }
 
-void Tool::setCursorChar(char c) {
+void Tool::setCursorChar(char c)
+{
   this->_cursorChar = c;
 }
+
+const char *Tool::getCursorChar(void)
+{
+  switch (this->_cursorChar) {
+    case 'a':
+        return ("a");
+    case 'b':
+        return ("b");
+    case 'c':
+        return ("c");
+    case 'd':
+        return ("d");
+    case 'e':
+        return ("e");
+    case 'f':
+        return ("f");
+    case 'g':
+        return ("g");
+    case 'h':
+        return ("h");
+    case 'i':
+        return ("i");
+    case 'j':
+        return ("j");
+    case 'k':
+        return ("k");
+    case 'l':
+        return ("l");
+    case 'm':
+        return ("m");
+    case 'n':
+        return ("n");
+    case 'o':
+        return ("o");
+    case 'p':
+        return ("p");
+    case 'q':
+        return ("q");
+    case 'r':
+        return ("r");
+    case 's':
+        return ("s");
+    case 't':
+        return ("t");
+    case 'u':
+        return ("u");
+    case 'v':
+        return ("v");
+    case 'w':
+        return ("w");
+    case 'x':
+        return ("x");
+    case 'y':
+        return ("y");
+    case 'z':
+        return ("z");
+    case ' ':
+        return (" ");
+    break;
+  }
+  return "\0";
+}
+
+std::vector<int> Tool::findCursorNextPosition()
+{
+  return {50, 50};
+};

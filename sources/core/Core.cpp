@@ -263,6 +263,7 @@ Core::Core()
     this->_row = 0;
     this->_col = 0;
     this->_isRunning = true;
+    this->_fileManager = new FileManager();
     refresh();
 }
 
@@ -273,5 +274,6 @@ Core::~Core()
 	delwin(this->_window);
 	endwin();
     delete this->_toolInterface;
+    delete this->_fileManager;
     refresh();
 }

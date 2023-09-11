@@ -37,6 +37,7 @@ FileManager::FileManager() {
         std::pair<std::string, Files> file = std::make_pair(filename, Files(filename));
         _files.push_back(file);
     }
+    this->_currentFileName = "test.txt";
     closedir(dir);
 }
 
@@ -62,16 +63,25 @@ int FileManager::catchSpecialEvent(Keys::Key event) {
 
 int FileManager::specialEventHandler(int specialEvent) {
   switch (specialEvent) {
-  case (1):
-    return (0);
+  case Keys::K_UP:
+  case Keys::K_CLOSE:
+  case Keys::K_DOWN:
+  case Keys::K_LEFT:
+  case Keys::K_RIGHT:
+  case Keys::K_SPACE:
+  case Keys::K_RETURN:
+  case Keys::K_EXIT:
+  case Keys::K_UNDEFINED:
+  case Keys::K_CONTROL:
+    return (3);
     break;
-  case (2):
+  case Keys::K_BACKSPACE:
     //handle deleting 1 char
-    return (0);
+    return (1);
     break;
   default:
     //delete queue when handling a sequence of special events
-    return (84);
+    return (0);
     break;
   }
 };
