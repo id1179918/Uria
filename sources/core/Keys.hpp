@@ -1,6 +1,8 @@
 #ifndef KEYS_HPP_
 #define KEYS_HPP_
 
+#include <string.h>
+
 namespace Keys {
     enum Key {
         K_A,
@@ -43,6 +45,6 @@ namespace Keys {
     };
 };
 
-char eventToChar(Keys::Key);
+char *eventToChar(Keys::Key);
 
 #endif

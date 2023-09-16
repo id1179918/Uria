@@ -23,6 +23,10 @@ Thomas ROUSTAN
 
 #include "Core.hpp"
 
+//typedef struct tool_text_buffer {
+//  std::string buffer;
+//} tool_text_buffer_t;
+
 class Tool {
 
     enum ToolPos {
@@ -45,6 +49,10 @@ class Tool {
         const char *getCursorChar(void);
         void setCursorChar(char);
 
+        std::string getBuffer(void);
+        void appendBuffer(char);
+        void popBuffer();
+
         std::vector<int> findCursorNextPosition();
 
         void setTime(std::time_t);
@@ -61,6 +69,7 @@ class Tool {
         bool _inUse;
         bool _toggle;
         Tool::ToolPos _posType;
+        std::string _buffer;
 };
 
 #endif

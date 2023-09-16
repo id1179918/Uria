@@ -20,6 +20,7 @@ Thomas ROUSTAN
 #include "Core.hpp"
 #include "Tool.hpp"
 #include "Menu.hpp"
+#include "FileManager.hpp"
 
 #include <vector>
 
@@ -66,6 +67,8 @@ class InterfaceTool {
 
         void toogleOffAllTools(void);
 
+        FileManager *fileManager(void);
+
         // displaying
 
         // functions responsible for displaying the tools, given the menu is toggled or not
@@ -107,6 +110,8 @@ class InterfaceTool {
         InterfaceTool::KeyboardScope _keyboardMode;
 
         std::vector<Tool *> _tools;
+
+        FileManager *_fileManager;
 
         Menu *_menu;
         Tool *_currentTool;

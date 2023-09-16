@@ -225,10 +225,6 @@ InterfaceTool *Core::getTools(void)
     return (this->_toolInterface);
 }
 
-FileManager *Core::fileManager(void) {
-    return (this->_fileManager);
-}
-
 void Core::setIsRunning(bool state)
 {
     this->_isRunning = state;
@@ -248,7 +244,6 @@ int Core::run()
         }
         wrefresh(this->_window);
         //out << (int)event << std::endl;
-        exitCode = this->fileManager()->update(event);
         // Ncurses Graphics
         exitCode = this->getTools()->update(event);
         exitCode = this->getTools()->render(this->_window);
@@ -263,7 +258,6 @@ Core::Core()
     this->_row = 0;
     this->_col = 0;
     this->_isRunning = true;
-    this->_fileManager = new FileManager();
     refresh();
 }
 
@@ -274,6 +268,5 @@ Core::~Core()
 	delwin(this->_window);
 	endwin();
     delete this->_toolInterface;
-    delete this->_fileManager;
     refresh();
 }

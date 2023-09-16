@@ -23,7 +23,7 @@ class FileManager {
 
         int update(Keys::Key);
         std::string read();
-        void write(const char &);
+        void write(const char *);
         void remove(void);
 
         //TODO:
@@ -38,6 +38,8 @@ class FileManager {
         std::string _currentFileName;
         std::vector<std::pair<std::string, Files>> _files;
         std::string _dir;
+        std::ofstream _out;
+        std::string _textBuffer;
         //DirectoryManager
 };
 

@@ -135,5 +135,21 @@ const char *Tool::getCursorChar(void)
 
 std::vector<int> Tool::findCursorNextPosition()
 {
-  return {50, 50};
+  return {25, 25};
 };
+
+std::string Tool::getBuffer(void)
+{
+    return this->_buffer;
+}
+
+void Tool::appendBuffer(char c)
+{
+    this->_buffer.append(1, c);
+    return;
+} 
+void Tool::popBuffer()
+{
+    this->_buffer.pop_back();
+    return;
+}

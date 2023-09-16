@@ -43,6 +43,7 @@ FileManager::FileManager() {
 
 FileManager::~FileManager()
 {
+  this->_out.close();
 }
 
 int FileManager::catchSpecialEvent(Keys::Key event) {
@@ -55,8 +56,10 @@ int FileManager::catchSpecialEvent(Keys::Key event) {
       return (2);
       break;
     case (Keys::K_UNDEFINED):
-    default:
       return (-1);
+      break;
+    default:
+      return (0);
       break;
   }
 };
@@ -68,16 +71,15 @@ int FileManager::specialEventHandler(int specialEvent) {
   case Keys::K_DOWN:
   case Keys::K_LEFT:
   case Keys::K_RIGHT:
-  case Keys::K_SPACE:
   case Keys::K_RETURN:
   case Keys::K_EXIT:
   case Keys::K_UNDEFINED:
   case Keys::K_CONTROL:
     return (3);
     break;
-  case Keys::K_BACKSPACE:
-    //handle deleting 1 char
-    return (1);
+  case (Keys::K_BACKSPACE):
+    this->remove();
+    return (0);
     break;
   default:
     //delete queue when handling a sequence of special events
@@ -90,7 +92,13 @@ int FileManager::update(Keys::Key event) {
     int specialEvent = this->catchSpecialEvent(event);
     if (specialEvent == 0) {
       //handle event as simple character to write
+
       this->write(eventToChar(event));
+      //this->_textBuffer.append(eventToChar(event));
+      //if (this->_textBuffer.length() > 5) {
+      //  this->write(this->_textBuffer.c_str());
+      //  this->_textBuffer.clear();
+      //}
     } else if (specialEvent > 0) {
       return (this->specialEventHandler(specialEvent));
     } else {
@@ -108,15 +116,15 @@ std::string FileManager::read() {
 };
 
         // Write to the file
-void FileManager::write(const char &c) {
-    std::ofstream out(this->_currentFileName);
-    out << c;
-    out.close();
+void FileManager::write(const char *c) {
+    this->_out.open(this->_currentFileName, std::ios::app);
+    this->_out << c;
+    this->_out.close();
 };
 
         // Delete the contents of the file
 void FileManager::remove(void) {
-    write('\0');
+    this->_out.seekp(-1, std::ios_base::cur);
 }
 
 void FileManager::save(std::string){};

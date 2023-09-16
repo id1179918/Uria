@@ -73,7 +73,6 @@ class Core {
         WINDOW *getWindow();
 
         InterfaceTool *getTools(void);
-        FileManager *fileManager(void);
 
         void setKBMode(void);
 
@@ -83,8 +82,6 @@ class Core {
         bool _isRunning;
 
         InterfaceTool *_toolInterface;
-
-        FileManager *_fileManager;
 
         int initPipeCommunicationHandler();
         fd_set _ioReadFd;

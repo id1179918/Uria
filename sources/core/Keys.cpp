@@ -16,87 +16,89 @@ Thomas ROUSTAN
 
 #include "Keys.hpp"
 
-char eventToChar(Keys::Key key) {
+char *eventToChar(Keys::Key key) {
     switch ((int) key) {
         case (Keys::K_A):
-            return 'a';
+            return strdup("a");
             break;
         case (Keys::K_B):
-            return 'b';
+            return strdup("b");
             break;
         case (Keys::K_C):
-            return 'c';
+            return strdup("c");
             break;
         case (Keys::K_D):
-            return 'd';
+            return strdup("d");
             break;
         case (Keys::K_E):
-            return 'e';
+            return strdup("e");
             break;
         case (Keys::K_F):
-            return 'f';
+            return strdup("f");
             break;
         case (Keys::K_G):
-            return 'g';
+            return strdup("g");
             break;
         case (Keys::K_H):
-            return 'h';
+            return strdup("h");
             break;
         case (Keys::K_I):
-            return 'i';
+            return strdup("i");
             break;
         case (Keys::K_J):
-            return 'j';
+            return strdup("j");
             break;
         case (Keys::K_K):
-            return 'h';
+            return strdup("h");
             break;
         case (Keys::K_L):
-            return 'l';
+            return strdup("l");
             break;
         case (Keys::K_M):
-            return 'm';
+            return strdup("m");
             break;
         case (Keys::K_N):
-            return 'n';
+            return strdup("n");
             break;
         case (Keys::K_O):
-            return 'o';
+            return strdup("o");
             break;
         case (Keys::K_P):
-            return 'p';
+            return strdup("p");
             break;
         case (Keys::K_Q):
-            return 'q';
+            return strdup("q");
             break;
         case (Keys::K_R):
-            return 'r';
+            return strdup("r");
             break;
         case (Keys::K_S):
-            return 's';
+            return strdup("s");
             break;
         case (Keys::K_T):
-            return 't';
+            return strdup("t");
             break;
         case (Keys::K_U):
-            return 't';
+            return strdup("t");
             break;
         case (Keys::K_V):
-            return 'v';
+            return strdup("v");
             break;
         case (Keys::K_W):
-            return 'w';
+            return strdup("w");
             break;
         case (Keys::K_X):
-            return 'x';
+            return strdup("x");
             break;
         case (Keys::K_Y):
-            return 'y';
+            return strdup("y");
             break;
         case (Keys::K_Z):
-            return 'z';
+            return strdup("z");
             break;
-        default:
-            return '\0';
+        case (Keys::K_SPACE):
+            return strdup(" ");
+            break;
     }
+    return strdup(" ");
 }
