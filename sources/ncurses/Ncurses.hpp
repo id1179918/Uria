@@ -18,3 +18,5 @@ Thomas ROUSTAN
 #include <iostream>
 
 void rectangle(int, int, int, int, WINDOW *);
+
+//void writeTextBufferWithMenu(WINDOW *, std::string, screenCoords_t);

@@ -17,14 +17,14 @@ Thomas ROUSTAN
 #ifndef INTERFACE_TOOL_HPP_
 #define INTERFACE_TOOL_HPP_
 
-#include "Core.hpp"
 #include "Tool.hpp"
 #include "Menu.hpp"
 #include "FileManager.hpp"
+#include "Ncurses.hpp"
 
 #include <vector>
 
-typedef struct ScreenCoordenates {
+typedef struct screenCoords {
   int size_x;
   int size_y;
   int menu_origin_x;
@@ -126,7 +126,7 @@ class InterfaceTool {
 
         FileManager *_fileManager;
 
-        screenCoords_t *_coords;
+        screenCoords_t _coords;
 
         Menu *_menu;
         Tool *_currentTool;
