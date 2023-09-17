@@ -90,6 +90,10 @@ class InterfaceTool {
         void displayToolsWithoutMenuNav(WINDOW *);
         void displayToolsWithoutMenuTyp(WINDOW *);
 
+        void displayMenuTyping(WINDOW *);
+        void displayMenuNavSelected(WINDOW *);
+        void displayMenu(WINDOW *);
+
         // dev
           std::ofstream myfile;
           //Use to debug directly on terminal window
@@ -118,6 +122,9 @@ class InterfaceTool {
           }
 
     private:
+
+        Graphics *_engine;
+
         InterfaceTool::ScreenSetup _screenSetup;
 
         InterfaceTool::KeyboardScope _keyboardMode;

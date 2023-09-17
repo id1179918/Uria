@@ -15,7 +15,6 @@ Thomas ROUSTAN
 */
 
 #include "Ncurses.hpp"
-#include "InterfaceTool.hpp"
 
 //typedef struct screenCoords_t;
 
@@ -53,7 +52,7 @@ Thomas ROUSTAN
 //  return;
 //}
 
-void rectangle(int x1, int y1, int x2, int y2, WINDOW *_window)
+void Graphics::rectangle(int x1, int y1, int x2, int y2, WINDOW *_window)
 {
     mvwhline(_window, y1, x1, 0, x2-x1);
     mvwhline(_window, y2, x1, 0, x2-x1);
@@ -65,3 +64,9 @@ void rectangle(int x1, int y1, int x2, int y2, WINDOW *_window)
     mvwaddch(_window, y2, x2, ACS_LRCORNER);
     return;
 }
+
+Graphics::Graphics()
+{}
+
+Graphics::~Graphics()
+{}

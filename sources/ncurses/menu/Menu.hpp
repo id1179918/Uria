@@ -18,8 +18,6 @@ Thomas ROUSTAN
 #define MENU_HPP_
 
 #include "Core.hpp"
-#include "Ncurses.hpp"
-#include "InterfaceTool.hpp"
 #include "Tool.hpp"
 
 class Menu {

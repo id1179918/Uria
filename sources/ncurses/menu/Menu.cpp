@@ -15,7 +15,6 @@ Thomas ROUSTAN
 */
 
 #include "Core.hpp"
-#include "Ncurses.hpp"
 #include "InterfaceTool.hpp"
 #include "Menu.hpp"
 
@@ -76,66 +75,6 @@ void Menu::changeMenuToolSelectionBelow(Tool *tool)
         }
     } catch (const std::exception& e) {
         std::cerr << "Uria error from Menu module: " << e.what() << std::endl;
-    }
-    return;
-}
-
-void Menu::displayMenuTyping(WINDOW *_window)
-{
-    int verticalOffset = 6;
-
-    rectangle(1, 1, 14, (LINES - 2), _window);
-    wattron(_window, COLOR_PAIR(2));
-    mvwprintw(_window, 2, 6, "MENU");
-    wattroff(_window, COLOR_PAIR(2));
-    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
-            Tool *readingTool = *it;
-            if (std::strcmp(readingTool->getName(), this->_highlightTool->getName()) == 0)
-                mvwprintw(_window, verticalOffset, 4, this->_highlightTool->getName());
-            else
-                mvwprintw(_window, verticalOffset, 4, readingTool->getName());
-            verticalOffset += 2;
-    }
-    return;
-}
-
-void Menu::displayMenuNavSelected(WINDOW *_window)
-{
-    int verticalOffset = 6;
-
-    wattron(_window, COLOR_PAIR(3));
-    rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
-    wattroff(_window, COLOR_PAIR(3));
-    wattron(_window, COLOR_PAIR(2));
-    mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
-    wattroff(_window, COLOR_PAIR(2));
-    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
-            Tool *readingTool = *it;
-            if (std::strcmp(readingTool->getName(), this->_highlightTool->getName()) == 0) {
-                wattron(_window, COLOR_PAIR(15));
-                mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, this->_highlightTool->getName());
-                wattroff(_window, COLOR_PAIR(15));
-            } else {
-                mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, readingTool->getName());
-            }
-            verticalOffset += 2;
-    }
-    return;
-}
-
-void Menu::displayMenu(WINDOW *_window)
-{
-    int verticalOffset = 6;
-
-    rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
-    mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
-    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
-            Tool *readingTool = *it;
-            if (std::strcmp(readingTool->getName(), this->_highlightTool->getName()) == 0)
-                mvwprintw(_window, verticalOffset, 4, this->_highlightTool->getName());
-            else
-                mvwprintw(_window, verticalOffset, 4, readingTool->getName());
-            verticalOffset += 2;
     }
     return;
 }

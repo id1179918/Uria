@@ -17,7 +17,6 @@ Thomas ROUSTAN
 #include "InterfaceTool.hpp"
 #include "Tool.hpp"
 #include "Core.hpp"
-#include "Ncurses.hpp"
 
 Tool::Tool(const char *name)
 {

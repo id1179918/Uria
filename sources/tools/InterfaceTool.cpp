@@ -15,7 +15,6 @@ Thomas ROUSTAN
 */
 
 #include "InterfaceTool.hpp"
-#include "Ncurses.hpp"
 
 void writeTextBufferWithMenu(WINDOW *_window, std::string buffer, screenCoords_t coords)
 {
@@ -43,6 +42,66 @@ void writeTextBufferWithoutMenu(WINDOW *_window, std::string buffer, screenCoord
   }
 }
 
+void InterfaceTool::displayMenuTyping(WINDOW *_window)
+{
+    int verticalOffset = 6;
+
+    this->_engine->rectangle(1, 1, 14, (LINES - 2), _window);
+    wattron(_window, COLOR_PAIR(2));
+    mvwprintw(_window, 2, 6, "MENU");
+    wattroff(_window, COLOR_PAIR(2));
+    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), this->_menu->getHighlightedTool()->getName()) == 0)
+                mvwprintw(_window, verticalOffset, 4, this->_menu->getHighlightedTool()->getName());
+            else
+                mvwprintw(_window, verticalOffset, 4, readingTool->getName());
+            verticalOffset += 2;
+    }
+    return;
+}
+
+void InterfaceTool::displayMenuNavSelected(WINDOW *_window)
+{
+    int verticalOffset = 6;
+
+    wattron(_window, COLOR_PAIR(3));
+    this->_engine->rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
+    wattroff(_window, COLOR_PAIR(3));
+    wattron(_window, COLOR_PAIR(2));
+    mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
+    wattroff(_window, COLOR_PAIR(2));
+    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), this->_menu->getHighlightedTool()->getName()) == 0) {
+                wattron(_window, COLOR_PAIR(15));
+                mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, this->_menu->getHighlightedTool()->getName());
+                wattroff(_window, COLOR_PAIR(15));
+            } else {
+                mvwprintw(_window, (LINES - LINES) + verticalOffset, (COLS - COLS) + 4, readingTool->getName());
+            }
+            verticalOffset += 2;
+    }
+    return;
+}
+
+void InterfaceTool::displayMenu(WINDOW *_window)
+{
+    int verticalOffset = 6;
+
+    this->_engine->rectangle(1, 1, (COLS - COLS + 14), (LINES - 2), _window);
+    mvwprintw(_window, (LINES - LINES) + 2, (COLS - COLS) + 6, "MENU");
+    for (std::vector<Tool *>::iterator it = this->_tools.begin(); it != this->_tools.end(); it++) {
+            Tool *readingTool = *it;
+            if (std::strcmp(readingTool->getName(), this->_menu->getHighlightedTool()->getName()) == 0)
+                mvwprintw(_window, verticalOffset, 4, this->_menu->getHighlightedTool()->getName());
+            else
+                mvwprintw(_window, verticalOffset, 4, readingTool->getName());
+            verticalOffset += 2;
+    }
+    return;
+}
+
 void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
 {
     try {
@@ -58,7 +117,7 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(3));
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(3));
                             writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
                             break;
@@ -68,7 +127,7 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
                         case InterfaceTool::ScreenSetup::NONE:
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             break;
                     }
                 }
@@ -91,7 +150,7 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(5));
-                            rectangle(
+                            this->_engine->rectangle(
                                 this->_coords.tool_origin_x_menu_active,
                                 this->_coords.tool_origin_y_menu_active,
                                 this->_coords.tool_end_x_menu_active,
@@ -112,7 +171,7 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                         case InterfaceTool::ScreenSetup::NONE:
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             break;
                     }
                 }
@@ -136,7 +195,7 @@ void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(3));
-                            rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(3));
                             mvwprintw(_window, 7, 100, "InterfaceTool::ScreenSetup::WIDE");
                             writeTextBufferWithoutMenu(_window, this->_currentTool->getBuffer(), this->_coords);
@@ -147,7 +206,7 @@ void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
                         case InterfaceTool::ScreenSetup::NONE:
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             break;
                     }
                 }
@@ -172,7 +231,7 @@ void InterfaceTool::displayToolsWithoutMenuTyp(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(5));
-                            rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(5));
                             wattron(_window, COLOR_PAIR(16));
                             mvwprintw(_window, (LINES - 2), 2, this->_tools[it]->getName());
@@ -186,7 +245,7 @@ void InterfaceTool::displayToolsWithoutMenuTyp(WINDOW *_window)
                         case InterfaceTool::ScreenSetup::NONE:
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             break;
                     }
                 }
@@ -251,6 +310,7 @@ InterfaceTool::InterfaceTool(WINDOW *window, int row, int col) {
     this->_menu = new Menu(this->_tools);
     this->_currentTool = nullptr;
     this->_fileManager = new FileManager();
+    this->_engine = new Graphics();
     this->_x = row;
     this->_y = col;
 }
@@ -690,7 +750,7 @@ int InterfaceTool::render(WINDOW *_window)
 {
     wclear(_window);
     //Global rectangle frame
-    rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
+    this->_engine->rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
     //Menu config
     //Tool *notepad_tool = this->getSpecificTool("NOTEPAD");
     //Tool *reminder_tool = this->getSpecificTool("REMINDER");
@@ -698,11 +758,11 @@ int InterfaceTool::render(WINDOW *_window)
     if (this->_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
         if (this->_menu->getToggle() == true) {
             if (this->_currentTool == nullptr) {
-                this->_menu->displayMenuTyping(_window);
+                this->displayMenuTyping(_window);
                 mvwprintw(_window, 6, 100, "displayMenuTyping");
                 mvwprintw(_window, 8, 100, this->screenSetupToString());
             } else if (this->_currentTool != nullptr) {
-                this->_menu->displayMenu(_window);
+                this->displayMenu(_window);
                 this->displayToolsWithMenuTyp(_window);
                 mvwprintw(_window, 8, 100, this->screenSetupToString());
                 mvwprintw(_window, 6, 100, "displayToolsWithMenuTyp");
@@ -715,12 +775,12 @@ int InterfaceTool::render(WINDOW *_window)
     } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
         if (this->_menu->getToggle() == true) {
             if (this->_currentTool == nullptr) {
-                this->_menu->displayMenuNavSelected(_window);
+                this->displayMenuNavSelected(_window);
                 this->displayToolsWithMenuNav(_window);
                 mvwprintw(_window, 6, 100, "displayToolsWithMenuNav");
                 mvwprintw(_window, 8, 100, this->screenSetupToString());
             } else if (this->_currentTool != nullptr) {
-                this->_menu->displayMenu(_window);
+                this->displayMenu(_window);
                 this->displayToolsWithMenuNav(_window);
                 mvwprintw(_window, 6, 100, "displayToolsWithMenuNav");
                 mvwprintw(_window, 8, 100, this->screenSetupToString());
