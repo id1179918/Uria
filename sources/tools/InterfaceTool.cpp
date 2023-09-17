@@ -60,6 +60,7 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
                             wattron(_window, COLOR_PAIR(3));
                             rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(3));
+                            writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
                             break;
                     }
                 } else {
@@ -97,7 +98,6 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                                 this->_coords.tool_end_y_menu_active,
                                 _window
                             );
-                            //mvwprintw(_window, 25 , 25, this->_currentTool->getCursorChar());
                             wattroff(_window, COLOR_PAIR(5));
                             wattron(_window, COLOR_PAIR(16));
                             mvwprintw(_window, (LINES - 2), (COLS - COLS + 15), this->_tools[it]->getName());
@@ -139,6 +139,7 @@ void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
                             rectangle(1, 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(3));
                             mvwprintw(_window, 7, 100, "InterfaceTool::ScreenSetup::WIDE");
+                            writeTextBufferWithoutMenu(_window, this->_currentTool->getBuffer(), this->_coords);
                             break;
                     }
                 } else {
