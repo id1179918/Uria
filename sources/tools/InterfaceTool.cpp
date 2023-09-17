@@ -21,7 +21,7 @@ void writeTextBufferWithMenu(WINDOW *_window, std::string buffer, screenCoords_t
 {
   int x = coords.tool_origin_x_menu_active + 1;
   int y = coords.tool_origin_y_menu_active + 1;
-  int bufferMaxlength = coords.size_x - 19;
+  int bufferMaxlength = coords.size_x - 18;
 
   for (unsigned chunk_size = 0; chunk_size < buffer.length(); chunk_size += bufferMaxlength) {
     std::string line = buffer.substr(chunk_size, bufferMaxlength); //seg faulf because string too short
@@ -236,8 +236,8 @@ InterfaceTool::InterfaceTool(WINDOW *window, int row, int col) {
     this->_menu = new Menu(this->_tools);
     this->_currentTool = nullptr;
     this->_fileManager = new FileManager();
-    this->_x = col;
-    this->_y = row;
+    this->_x = row;
+    this->_y = col;
 }
 
 InterfaceTool::~InterfaceTool()
