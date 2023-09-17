@@ -85,7 +85,7 @@ int Core::init()
     }
 	initColor();
     this->_window = newwin(LINES, COLS, 0, 0);
-    this->_toolInterface = new InterfaceTool(_window, LINES, COLS);
+    this->_toolInterface = new InterfaceTool(_window, COLS, LINES);
     return (0);
 }
 
