@@ -15,10 +15,20 @@ Thomas ROUSTAN
 */
 
 #include "InterfaceTool.hpp"
-#include "Tool.hpp"
-#include "Core.hpp"
 #include "Ncurses.hpp"
-#include "Menu.hpp"
+
+void writeTextBufferWithMenu(WINDOW *_window, std::string buffer, screenCoords_t coords)
+{
+  int x = coords.tool_origin_x_menu_active + 1;
+  int y = coords.tool_origin_y_menu_active + 1;
+  int bufferMaxlength = coords.size_x - 19;
+
+  for (unsigned chunk_size = 0; chunk_size < buffer.length(); chunk_size += bufferMaxlength) {
+    std::string line = buffer.substr(chunk_size, bufferMaxlength); //seg faulf because string too short
+    mvwprintw(_window, y, x, line.c_str());
+    y++;
+  }
+}
 
 void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
 {
@@ -67,13 +77,20 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(5));
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            rectangle(
+                                this->_coords.tool_origin_x_menu_active,
+                                this->_coords.tool_origin_y_menu_active,
+                                this->_coords.tool_end_x_menu_active,
+                                this->_coords.tool_end_y_menu_active,
+                                _window
+                            );
                             //mvwprintw(_window, 25 , 25, this->_currentTool->getCursorChar());
                             wattroff(_window, COLOR_PAIR(5));
                             wattron(_window, COLOR_PAIR(16));
                             mvwprintw(_window, (LINES - 2), (COLS - COLS + 15), this->_tools[it]->getName());
                             wattroff(_window, COLOR_PAIR(16));
-                            mvwprintw(_window, this->_currentTool->getCursor().at(0) , this->_currentTool->getCursor().at(1), this->_currentTool->getBuffer().c_str());
+                            writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
+                            //mvwprintw(_window, this->_currentTool->getCursor().at(0) , this->_currentTool->getCursor().at(1), this->_currentTool->getBuffer().c_str());
                             //myfile << this->_currentTool->getCursorChar() << std::endl;
                             break;
                     }
@@ -204,6 +221,25 @@ InterfaceTool::InterfaceTool(WINDOW *window)
     this->_fileManager = new FileManager();
 }
 
+InterfaceTool::InterfaceTool(WINDOW *window, int row, int col) {
+
+    Tool *notepad = new Tool("NOTEPAD");
+    Tool *reminder = new Tool("REMINDER");
+    Tool *calendar = new Tool("CALENDAR");
+
+    this->_window = window;
+    this->_tools.push_back(notepad);
+    this->_tools.push_back(reminder);
+    this->_tools.push_back(calendar);
+    this->_screenSetup = InterfaceTool::ScreenSetup::NONE;
+    this->_keyboardMode = InterfaceTool::KeyboardScope::NAVIGATION;
+    this->_menu = new Menu(this->_tools);
+    this->_currentTool = nullptr;
+    this->_fileManager = new FileManager();
+    this->_x = col;
+    this->_y = row;
+}
+
 InterfaceTool::~InterfaceTool()
 {
     for (auto it = this->_tools.begin(); it != this->_tools.end(); it++) {
@@ -331,6 +367,27 @@ void InterfaceTool::toogleOffAllTools(void)
 
 int InterfaceTool::initTools()
 {
+    return (0);
+}
+
+int InterfaceTool::initCoods()
+{
+    this->_coords = {};
+    this->_coords.size_x = this->_x;
+    this->_coords.size_y = this->_y;
+    this->_coords.menu_origin_x = 1;
+    this->_coords.menu_origin_y = 1;
+    this->_coords.menu_end_x = 14;
+    this->_coords.menu_end_y = (this->_y - 2);
+    this->_coords.tool_origin_x_menu_active = 15;
+    this->_coords.tool_origin_y_menu_active = 1;
+    this->_coords.tool_origin_x_menu_unactive = 1;
+    this->_coords.tool_origin_y_menu_unactive = 1;
+    this->_coords.tool_end_x_menu_active = (this->_x - 2);
+    this->_coords.tool_end_y_menu_active = (this->_y - 2);
+    this->_coords.tool_end_x_menu_unactive = (this->_x - 2);
+    this->_coords.tool_end_y_menu_unactive = (this->_y - 2);
+
     return (0);
 }
 

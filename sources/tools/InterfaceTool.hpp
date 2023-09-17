@@ -17,17 +17,29 @@ Thomas ROUSTAN
 #ifndef INTERFACE_TOOL_HPP_
 #define INTERFACE_TOOL_HPP_
 
-#include "Core.hpp"
 #include "Tool.hpp"
 #include "Menu.hpp"
 #include "FileManager.hpp"
+#include "Ncurses.hpp"
 
 #include <vector>
+
+typedef struct screenCoords {
+  int size_x;
+  int size_y;
+  int menu_origin_x;
+  int menu_origin_y;
+  int menu_end_x;
+  int menu_end_y;
+  int tool_origin_x_menu_active, tool_origin_y_menu_active, tool_end_x_menu_active, tool_end_y_menu_active;
+  int tool_origin_x_menu_unactive, tool_origin_y_menu_unactive, tool_end_x_menu_unactive, tool_end_y_menu_unactive;
+} screenCoords_t;
 
 class InterfaceTool {
     public:
         InterfaceTool();
         InterfaceTool(WINDOW *);
+        InterfaceTool(WINDOW *, int, int);
         ~InterfaceTool();
 
         enum ScreenSetup {
@@ -50,6 +62,7 @@ class InterfaceTool {
         };
 
         int initTools();
+        int initCoods();
 
         int handleInputsTyping(Keys::Key);
         int handleInputsNav(Keys::Key);
@@ -113,8 +126,12 @@ class InterfaceTool {
 
         FileManager *_fileManager;
 
+        screenCoords_t _coords;
+
         Menu *_menu;
         Tool *_currentTool;
+
+        int _x, _y;
 };
 
 #endif

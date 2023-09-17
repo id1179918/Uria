@@ -85,7 +85,7 @@ int Core::init()
     }
 	initColor();
     this->_window = newwin(LINES, COLS, 0, 0);
-    this->_toolInterface = new InterfaceTool(_window);
+    this->_toolInterface = new InterfaceTool(_window, LINES, COLS);
     return (0);
 }
 
@@ -235,6 +235,8 @@ int Core::run()
 {
     int exitCode = 0;
     Keys::Key event;
+
+    this->_toolInterface->initCoods();
 
     while (this->_isRunning) {
         event = this->getInput();
