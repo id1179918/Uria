@@ -67,7 +67,13 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             wattron(_window, COLOR_PAIR(5));
-                            rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            rectangle(
+                                this->_coords->tool_origin_x_menu_active,
+                                this->_coords->tool_origin_y_menu_active,
+                                this->_coords->tool_end_x_menu_active,
+                                this->_coords->tool_end_y_menu_active,
+                                _window
+                            );
                             //mvwprintw(_window, 25 , 25, this->_currentTool->getCursorChar());
                             wattroff(_window, COLOR_PAIR(5));
                             wattron(_window, COLOR_PAIR(16));
@@ -204,6 +210,25 @@ InterfaceTool::InterfaceTool(WINDOW *window)
     this->_fileManager = new FileManager();
 }
 
+InterfaceTool::InterfaceTool(WINDOW *window, int row, int col) {
+    
+    Tool *notepad = new Tool("NOTEPAD");
+    Tool *reminder = new Tool("REMINDER");
+    Tool *calendar = new Tool("CALENDAR");
+
+    this->_window = window;
+    this->_tools.push_back(notepad);
+    this->_tools.push_back(reminder);
+    this->_tools.push_back(calendar);
+    this->_screenSetup = InterfaceTool::ScreenSetup::NONE;
+    this->_keyboardMode = InterfaceTool::KeyboardScope::NAVIGATION;
+    this->_menu = new Menu(this->_tools);
+    this->_currentTool = nullptr;
+    this->_fileManager = new FileManager();
+    this->_x = row;
+    this->_y = col;
+}
+
 InterfaceTool::~InterfaceTool()
 {
     for (auto it = this->_tools.begin(); it != this->_tools.end(); it++) {
@@ -331,6 +356,27 @@ void InterfaceTool::toogleOffAllTools(void)
 
 int InterfaceTool::initTools()
 {
+    return (0);
+}
+
+int InterfaceTool::initCoods()
+{
+    this->_coords = {};
+    this->_coords->size_x = this->_x;
+    this->_coords->size_y = this->_y;
+    this->_coords->menu_origin_x = 1;
+    this->_coords->menu_origin_y = 1;
+    this->_coords->menu_end_x = 14;
+    this->_coords->menu_end_y = (this->_y - 2);
+    this->_coords->tool_origin_x_menu_active = 15;
+    this->_coords->tool_origin_y_menu_active = 1;
+    this->_coords->tool_origin_x_menu_unactive = 1;
+    this->_coords->tool_origin_y_menu_unactive = 1;
+    this->_coords->tool_end_x_menu_active = (this->_x - 1);
+    this->_coords->tool_end_y_menu_active = (this->_y - 1);
+    this->_coords->tool_end_x_menu_unactive = (this->_x - 1);
+    this->_coords->tool_end_y_menu_unactive = (this->_y - 1);
+
     return (0);
 }
 
