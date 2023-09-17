@@ -30,6 +30,19 @@ void writeTextBufferWithMenu(WINDOW *_window, std::string buffer, screenCoords_t
   }
 }
 
+void writeTextBufferWithoutMenu(WINDOW *_window, std::string buffer, screenCoords_t coords)
+{
+  int x = coords.tool_origin_x_menu_unactive + 1;
+  int y = coords.tool_origin_y_menu_unactive + 1;
+  int bufferMaxlength = coords.size_x - 4;
+
+  for (unsigned chunk_size = 0; chunk_size < buffer.length(); chunk_size += bufferMaxlength) {
+    std::string line = buffer.substr(chunk_size, bufferMaxlength); //seg faulf because string too short
+    mvwprintw(_window, y, x, line.c_str());
+    y++;
+  }
+}
+
 void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
 {
     try {
@@ -164,6 +177,7 @@ void InterfaceTool::displayToolsWithoutMenuTyp(WINDOW *_window)
                             mvwprintw(_window, (LINES - 2), 2, this->_tools[it]->getName());
                             wattroff(_window, COLOR_PAIR(16));
                             mvwprintw(_window, 7, 100, "InterfaceTool::ScreenSetup::WIDE");
+                            writeTextBufferWithoutMenu(_window, this->_currentTool->getBuffer(), this->_coords);
                             break;
                     }
                 } else {
