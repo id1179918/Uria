@@ -649,7 +649,9 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
         case Keys::Key::K_CONTROL:
             this->_menu->setToogle();
             break;
-
+        case Keys::K_M:
+            this->_menu->setToogle();
+            break;
         case Keys::Key::K_RETURN:
             if (this->_menu->getToggle() == true) {
                 if (this->_menu->getHighlightedTool() != this->_currentTool) {
@@ -716,9 +718,6 @@ int InterfaceTool::update(Keys::Key event)
     exitCode = this->_fileManager->update(event);
 
     switch ((int) event) {
-        case Keys::K_M:
-            this->_menu->setToogle();
-            break;
         case Keys::K_CONTROL:
             this->setKBMode();
             break;
