@@ -465,6 +465,11 @@ int InterfaceTool::getCurrentToolIndex(void)
     return (0);
 }
 
+Tool *InterfaceTool::getCurrentTool(void)
+{
+    return (this->_currentTool);
+}
+
 int InterfaceTool::handleInputsTyping(Keys::Key event)
 {
     //this->_currentTool->setCursorChar('');
@@ -604,6 +609,7 @@ int InterfaceTool::handleInputsTyping(Keys::Key event)
 int InterfaceTool::handleInputsNav(Keys::Key event)
 {
     switch ((int) event) {
+        //mvwprintw(_window, 20, 20, );
         case Keys::K_CLOSE:
             if (this->_menu->getToggle() == true) {
                 if (this->_currentTool == nullptr) {
@@ -651,6 +657,12 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
             break;
         case Keys::K_M:
             this->_menu->setToogle();
+            break;
+        case Keys::K_S:
+            this->fileManager()->save(
+                this->_currentTool->getBuffer(),
+                this->_currentTool->getName()
+            );
             break;
         case Keys::Key::K_RETURN:
             if (this->_menu->getToggle() == true) {
@@ -714,6 +726,8 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
 int InterfaceTool::update(Keys::Key event)
 {
     int exitCode;
+
+    this->event = event;
 
     exitCode = this->_fileManager->update(event);
 

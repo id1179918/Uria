@@ -242,6 +242,10 @@ int Core::run()
         event = this->getInput();
         if (event == Keys::K_EXIT) {
             // save instance
+            this->getTools()->fileManager()->save(
+                this->getTools()->getCurrentTool()->getBuffer(),
+                this->getTools()->getCurrentTool()->getName()
+            );
             this->setIsRunning(false);
         }
         wrefresh(this->_window);

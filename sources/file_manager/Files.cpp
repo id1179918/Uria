@@ -53,3 +53,8 @@ void Files::setContent(std::string content)
 {
   this->_content = content;
 }
+
+std::string Files::getFilename(void)
+{
+  return (this->_name);
+}

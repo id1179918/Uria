@@ -74,6 +74,7 @@ class InterfaceTool {
 
         Tool *getSpecificTool(const char *);
         int getCurrentToolIndex(void);
+        Tool *getCurrentTool(void);
 
         void changeCurrentToolLeft(void);
         void changeCurrentToolRight(void);
@@ -120,6 +121,8 @@ class InterfaceTool {
             }
             return "NONE";
           }
+
+        Keys::Key event;
 
     private:
 

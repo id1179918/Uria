@@ -19,6 +19,7 @@ class Files {
         bool isCached(void);
         std::string getContent(void);
         void setContent(std::string);
+        std::string getFilename(void);
     private:
         std::string _content;
         std::string _name;

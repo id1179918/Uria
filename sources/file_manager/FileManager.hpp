@@ -29,9 +29,10 @@ class FileManager {
         //TODO:
         int catchSpecialEvent(Keys::Key);
         int specialEventHandler(int);
+        Files *getCurrentFile(std::string);
         //void changeCurrentFile(std::string);
         //void switchCurrentFile(void);
-        void save(std::string);
+        void save(std::string, std::string);
         void saveAll(void);
 
     private:

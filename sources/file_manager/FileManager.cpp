@@ -23,7 +23,8 @@ Thomas ROUSTAN
 #include <stdlib.h>
 #include <dirent.h>
 
-FileManager::FileManager() {
+FileManager::FileManager()
+{
     this->_dir = "filesave/";
 
     DIR* dir = opendir(this->_dir.c_str());
@@ -35,8 +36,10 @@ FileManager::FileManager() {
     while ((entry = readdir(dir)) != NULL) {
         std::string filename = entry->d_name;
         std::pair<std::string, Files> file = std::make_pair(filename, Files(filename));
-        _files.push_back(file);
+        this->_files.push_back(file);
     }
+    std::pair<std::string, Files> cacheFile = std::make_pair("filesave/cache", Files("filesave/cache"));
+    this->_files.push_back(cacheFile);
     this->_currentFileName = "test.txt";
     closedir(dir);
 }
@@ -46,7 +49,8 @@ FileManager::~FileManager()
   this->_out.close();
 }
 
-int FileManager::catchSpecialEvent(Keys::Key event) {
+int FileManager::catchSpecialEvent(Keys::Key event)
+{
   switch ((int) event) {
     case (Keys::K_CONTROL):
       return (1);
@@ -64,7 +68,8 @@ int FileManager::catchSpecialEvent(Keys::Key event) {
   }
 };
 
-int FileManager::specialEventHandler(int specialEvent) {
+int FileManager::specialEventHandler(int specialEvent)
+{
   switch (specialEvent) {
   case Keys::K_UP:
   case Keys::K_CLOSE:
@@ -88,7 +93,20 @@ int FileManager::specialEventHandler(int specialEvent) {
   }
 };
 
-int FileManager::update(Keys::Key event) {
+Files *FileManager::getCurrentFile(std::string currentToolName)
+{
+    for (long unsigned int i = 0; i < this->_files.size(); i++) {
+        if (this->_files.at(i).first.compare(currentToolName) == 0) {
+          return &(this->_files.at(i).second);
+        //} else if (currentToolName.compare("REMINDER") == 0) {
+        //} else if (currentToolName.compare("CALENDAR") == 0) {
+        }
+    }
+    return &(this->_files.back().second);
+}
+
+int FileManager::update(Keys::Key event)
+{
     int specialEvent = this->catchSpecialEvent(event);
     if (specialEvent == 0) {
       //handle event as simple character to write
@@ -116,19 +134,30 @@ std::string FileManager::read() {
 };
 
         // Write to the file
-void FileManager::write(const char *c) {
+void FileManager::write(const char *c)
+{
     this->_out.open(this->_currentFileName, std::ios::app);
     this->_out << c;
     this->_out.close();
 };
 
         // Delete the contents of the file
-void FileManager::remove(void) {
+void FileManager::remove(void)
+{
     this->_out.seekp(-1, std::ios_base::cur);
 }
 
-void FileManager::save(std::string){};
+void FileManager::save(std::string buffer, std::string currentToolName)
+{
+    Files *file = this->getCurrentFile(currentToolName);
+    std::string filename = "filesave/" + file->getFilename();
+    this->_out.open(filename, std::ios::app);
+    this->_out << buffer;
+    this->_out.close();
+    return;
+};
 
-void FileManager::saveAll(){
+void FileManager::saveAll()
+{
   //for (this->_files) -> save("filename")
 };
