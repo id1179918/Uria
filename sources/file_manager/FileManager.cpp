@@ -38,7 +38,7 @@ FileManager::FileManager()
         std::pair<std::string, Files> file = std::make_pair(filename, Files(filename));
         this->_files.push_back(file);
     }
-    std::pair<std::string, Files> cacheFile = std::make_pair("filesave/cache", Files("filesave/cache"));
+    std::pair<std::string, Files> cacheFile = std::make_pair("cache", Files("cache"));
     this->_files.push_back(cacheFile);
     this->_currentFileName = "test.txt";
     closedir(dir);
@@ -151,7 +151,7 @@ void FileManager::save(std::string buffer, std::string currentToolName)
 {
     Files *file = this->getCurrentFile(currentToolName);
     std::string filename = "filesave/" + file->getFilename();
-    this->_out.open(filename, std::ios::app);
+    this->_out.open(filename, std::ios::ate);
     this->_out << buffer;
     this->_out.close();
     return;
