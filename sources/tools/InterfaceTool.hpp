@@ -75,6 +75,7 @@ class InterfaceTool {
         Tool *getSpecificTool(const char *);
         int getCurrentToolIndex(void);
         Tool *getCurrentTool(void);
+        void setCurrentTool(void);
 
         void changeCurrentToolLeft(void);
         void changeCurrentToolRight(void);

@@ -50,6 +50,7 @@ class Tool {
         void setCursorChar(char);
 
         std::string getBuffer(void);
+        void setBuffer(std::string);
         void appendBuffer(char);
         void popBuffer();
 

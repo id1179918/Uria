@@ -116,6 +116,9 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
                             this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
                             wattroff(_window, COLOR_PAIR(3));
                             writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
+                            const char * var1 = this->_currentTool->getBuffer().c_str();
+                            mvwprintw(_window, (LINES - 10), (COLS + 25), var1);
+                            mvwprintw(_window, (LINES - 11), (COLS + 25), this->_currentTool->getName());
                             break;
                     }
                 } else {
@@ -470,6 +473,17 @@ Tool *InterfaceTool::getCurrentTool(void)
     return (this->_currentTool);
 }
 
+void InterfaceTool::setCurrentTool(void)
+{
+    this->_currentTool = NULL;
+    this->_currentTool = this->_menu->getHighlightedTool();
+    this->_currentTool->setToggle(true);
+    std::string currentToolName = this->_currentTool->getName();
+    this->_fileManager->setCurrentFilename(currentToolName);
+    std::string buffer = this->_fileManager->read();
+    this->_currentTool->setBuffer(buffer);
+}
+
 int InterfaceTool::handleInputsTyping(Keys::Key event)
 {
     //this->_currentTool->setCursorChar('');
@@ -683,9 +697,7 @@ int InterfaceTool::handleInputsNav(Keys::Key event)
                         return (0);
                     } else if (this->_screenSetup == InterfaceTool::ScreenSetup::WIDE) {
                         this->toogleOffAllTools();
-                        this->_currentTool = NULL;
-                        this->_currentTool = this->_menu->getHighlightedTool();
-                        this->_currentTool->setToggle(true);
+                        this->setCurrentTool();
                         return (0);
                     }
                     // if ScreenSetup::WIDE

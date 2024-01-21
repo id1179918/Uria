@@ -142,11 +142,18 @@ std::string Tool::getBuffer(void)
     return this->_buffer;
 }
 
+void Tool::setBuffer(std::string buffer)
+{
+    this->_buffer = buffer;
+    return;
+}
+
 void Tool::appendBuffer(char c)
 {
     this->_buffer.append(1, c);
     return;
-} 
+}
+
 void Tool::popBuffer()
 {
     this->_buffer.pop_back();

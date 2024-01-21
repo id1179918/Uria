@@ -22,6 +22,8 @@ Thomas ROUSTAN
 #include <unistd.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <fstream>
+#include <string>
 
 FileManager::FileManager()
 {
@@ -105,6 +107,12 @@ Files *FileManager::getCurrentFile(std::string currentToolName)
     return &(this->_files.back().second);
 }
 
+void FileManager::setCurrentFilename(std::string currentToolName)
+{
+  this->_currentFileName = currentToolName;
+  return;
+}
+
 int FileManager::update(Keys::Key event)
 {
     int specialEvent = this->catchSpecialEvent(event);
@@ -126,10 +134,11 @@ int FileManager::update(Keys::Key event)
 };
 
 std::string FileManager::read() {
-    std::ifstream in(this->_currentFileName);
-    std::string contents((std::istreambuf_iterator<char>(in)),
-                         std::istreambuf_iterator<char>());
-    in.close();
+    std::ifstream ifs("filesave/" + this->_currentFileName);
+    std::string contents( (std::istreambuf_iterator<char>(ifs) ),
+                       (std::istreambuf_iterator<char>()    ) );
+    //std::string contents((std::istreambuf_iterator<char>(in)),
+    //                     std::istreambuf_iterator<char>());
     return contents;
 };
 
