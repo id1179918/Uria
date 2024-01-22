@@ -21,12 +21,21 @@ void writeTextBufferWithMenu(WINDOW *_window, std::string buffer, screenCoords_t
   int x = coords.tool_origin_x_menu_active + 1;
   int y = coords.tool_origin_y_menu_active + 1;
   int bufferMaxlength = coords.size_x - 18;
+  int lastBufferSize = 0;
 
   for (unsigned chunk_size = 0; chunk_size < buffer.length(); chunk_size += bufferMaxlength) {
     std::string line = buffer.substr(chunk_size, bufferMaxlength); //seg faulf because string too short
     mvwprintw(_window, y, x, line.c_str());
+    lastBufferSize = line.length();
     y++;
   }
+  wattron(_window, COLOR_PAIR(14));
+  if (lastBufferSize == bufferMaxlength) {
+    mvwprintw(_window, y, x, " ");
+  } else {
+    mvwprintw(_window, y - 1, x + lastBufferSize, " ");
+  }
+  wattroff(_window, COLOR_PAIR(14));
 }
 
 void writeTextBufferWithoutMenu(WINDOW *_window, std::string buffer, screenCoords_t coords)
@@ -166,7 +175,7 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                             wattron(_window, COLOR_PAIR(16));
                             mvwprintw(_window, (LINES - 2), (COLS - COLS + 15), this->_tools[it]->getName());
                             wattroff(_window, COLOR_PAIR(16));
-                            //writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
+                            writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
                             break;
                     }
                 } else {
