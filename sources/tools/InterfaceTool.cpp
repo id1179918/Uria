@@ -44,6 +44,7 @@ void writeTextBufferWithoutMenu(WINDOW *_window, std::string buffer, screenCoord
 
 void InterfaceTool::displayMenuTyping(WINDOW *_window)
 {
+    mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "displayMenuTyping");
     int verticalOffset = 6;
 
     this->_engine->rectangle(1, 1, 14, (LINES - 2), _window);
@@ -63,6 +64,8 @@ void InterfaceTool::displayMenuTyping(WINDOW *_window)
 
 void InterfaceTool::displayMenuNavSelected(WINDOW *_window)
 {
+    mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "displayMenuNavSelected");
+
     int verticalOffset = 6;
 
     wattron(_window, COLOR_PAIR(3));
@@ -104,6 +107,7 @@ void InterfaceTool::displayMenu(WINDOW *_window)
 
 void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
 {
+    mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "displayToolsWithMenuNav");
     try {
         for (int it = 0; it != (int) this->_tools.size(); it++) {
             if (this->_tools[it]->getToggle() == true) {
@@ -117,8 +121,8 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
                             wattroff(_window, COLOR_PAIR(3));
                             writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
                             const char * var1 = this->_currentTool->getBuffer().c_str();
-                            mvwprintw(_window, (LINES - 10), (COLS + 25), var1);
-                            mvwprintw(_window, (LINES - 11), (COLS + 25), this->_currentTool->getName());
+                            mvwprintw(_window, (LINES - 10), (COLS - 25), var1);
+                            mvwprintw(_window, (LINES - 11), (COLS - 25), this->_currentTool->getName());
                             break;
                     }
                 } else {
@@ -127,6 +131,7 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
                             break;
                         case InterfaceTool::ScreenSetup::WIDE:
                             this->_engine->rectangle((COLS - COLS + 15), 1, (COLS - 2), (LINES - 2), _window);
+                            writeTextBufferWithMenu(_window, this->_tools[it]->getBuffer(), _coords);
                             break;
                     }
                 }
@@ -140,6 +145,7 @@ void InterfaceTool::displayToolsWithMenuNav(WINDOW *_window)
 
 void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
 {
+    mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "displayToolsWithMenuTyp");
     try {
         for (int it = 0; it != (int) this->_tools.size(); it++) {
             if (this->_tools[it]->getToggle() == true) {
@@ -160,7 +166,7 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
                             wattron(_window, COLOR_PAIR(16));
                             mvwprintw(_window, (LINES - 2), (COLS - COLS + 15), this->_tools[it]->getName());
                             wattroff(_window, COLOR_PAIR(16));
-                            writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
+                            //writeTextBufferWithMenu(_window, this->_currentTool->getBuffer(), _coords);
                             break;
                     }
                 } else {
@@ -182,6 +188,7 @@ void InterfaceTool::displayToolsWithMenuTyp(WINDOW *_window)
 
 void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
 {
+    mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "displayToolsWithoutMenuNvv");
     try {
         for (int it = 0; it != (int) this->_tools.size(); it++) {
             if (this->_tools[it]->getToggle() == true) {
@@ -216,6 +223,7 @@ void InterfaceTool::displayToolsWithoutMenuNav(WINDOW *_window)
 
 void InterfaceTool::displayToolsWithoutMenuTyp(WINDOW *_window)
 {
+    mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "displayToolsWithoutMenuTyp");
     try {
         for (int it = 0; it != (int) this->_tools.size(); it++) {
             if (this->_tools[it]->getToggle() == true) {
@@ -771,6 +779,7 @@ int InterfaceTool::render(WINDOW *_window)
     //Tool *reminder_tool = this->getSpecificTool("REMINDER");
     //Tool *calendar_tool = this->getSpecificTool("CALENDAR");
     if (this->_keyboardMode == InterfaceTool::KeyboardScope::TYPING) {
+        mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "TYPING");
         if (this->_menu->getToggle() == true) {
             if (this->_currentTool == nullptr) {
                 this->displayMenuTyping(_window);
@@ -782,6 +791,7 @@ int InterfaceTool::render(WINDOW *_window)
             this->displayToolsWithoutMenuTyp(_window);
         }
     } else if (this->_keyboardMode == InterfaceTool::KeyboardScope::NAVIGATION) {
+        mvwprintw(_window, (LINES - 9), (COLS - COLS + 25), "NAVIGATION");
         if (this->_menu->getToggle() == true) {
             if (this->_currentTool == nullptr) {
                 this->displayMenuNavSelected(_window);
