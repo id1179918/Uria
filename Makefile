@@ -22,7 +22,6 @@ OBJ		= $(SRC:.cpp=.o)
 
 SRC		= 	sources/Main.cpp						\
 			sources/core/Core.cpp					\
-			sources/core/Keys.cpp					\
 			sources/ncurses/Ncurses.cpp				\
 			sources/ncurses/menu/Menu.cpp			\
 			sources/tools/InterfaceTool.cpp			\
@@ -30,15 +29,17 @@ SRC		= 	sources/Main.cpp						\
 			sources/file_manager/FileManager.cpp	\
 			sources/file_manager/Crypt.cpp			\
 			sources/file_manager/Files.cpp			\
+			sources/events/EventHandler.cpp			\
 			#sources/errors/Errors.cpp				\
 
 CXXFLAGS	+= -I sources/core
+CXXFLAGS	+= -I sources/events
 #CXXFLAGS	+= -I sources/errors
 CXXFLAGS	+= -I sources/file_manager
 CXXFLAGS	+= -I sources/tools
 CXXFLAGS	+= -I sources/ncurses
 CXXFLAGS	+= -I sources/ncurses/menu
-CXXFLAGS	+= -Wall -Werror -Wextra -Wsign-compare -fPIC
+CXXFLAGS	+= -Wall -Werror -Wextra -Wsign-compare -Werror=unused-but-set-variable -fPIC
 CXXFLAGS	+= -std=c++17
 CXXFLAGS	+= -g
 
