@@ -2,6 +2,7 @@
 #define KEYS_HPP_
 
 #include <string.h>
+#include <curses.h>
 
 namespace Keys {
     enum Key {
@@ -44,7 +45,5 @@ namespace Keys {
         K_CLOSE
     };
 };
-
-char *eventToChar(Keys::Key);
 
 #endif

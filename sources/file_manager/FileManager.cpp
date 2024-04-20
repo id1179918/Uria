@@ -119,7 +119,7 @@ int FileManager::update(Keys::Key event)
     if (specialEvent == 0) {
       //handle event as simple character to write
 
-      this->write(eventToChar(event));
+      //this->write(eventToChar(event));
       //this->_textBuffer.append(eventToChar(event));
       //if (this->_textBuffer.length() > 5) {
       //  this->write(this->_textBuffer.c_str());

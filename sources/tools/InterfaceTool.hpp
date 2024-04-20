@@ -20,7 +20,6 @@ Thomas ROUSTAN
 #include "Tool.hpp"
 #include "Menu.hpp"
 #include "FileManager.hpp"
-#include "Ncurses.hpp"
 #include "Coords.hpp"
 
 #include <vector>
