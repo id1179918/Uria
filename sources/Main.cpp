@@ -18,12 +18,12 @@ Thomas ROUSTAN
 
 int main()
 {
-    int exitCode = 0;
+    int exitCode;
     Core *core;
 
     core = new Core();
-    core->init();
-    printf("initiated\n");
-    core->run();
+    exitCode = core->init();
+    //printf("initiated\n");
+    exitCode = core->run();
     return (exitCode);
 }

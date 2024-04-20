@@ -41,9 +41,14 @@ extern "C" {
 #include "FileManager.hpp"
 #include "Keys.hpp"
 
-class InterfaceTool;
-
 #define BUFFER_SIZE 100
+
+#define EX_OK                 1      /* successful termination */
+#define EX_ESCAPE             2      /* closing application  */
+#define EX_INTERRUPT          3      /* interrupting application (e.g., ctrl+c) */
+#define EX_FAILOPENINPUT      4      /* cannot open input */
+#define EX_OSERR              5      /* system error (e.g., can't fork) */
+
 
 class InterfaceTool;
 class FileManager;

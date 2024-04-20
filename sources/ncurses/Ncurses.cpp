@@ -15,6 +15,7 @@ Thomas ROUSTAN
 */
 
 #include "Ncurses.hpp"
+#include "Coords.hpp"
 
 //typedef struct screenCoords_t;
 

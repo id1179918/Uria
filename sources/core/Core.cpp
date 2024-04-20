@@ -71,6 +71,8 @@ void Core::initColor()
 
     init_pair(16, COLOR_MAGENTA, COLOR_CYAN);
 
+    init_pair(17, COLOR_BLACK, COLOR_WHITE);
+
     init_color(COLOR_BLACK, 0, 0, 0);
     return;
 }
@@ -233,7 +235,7 @@ void Core::setIsRunning(bool state)
 
 int Core::run()
 {
-    int exitCode = 0;
+    int exitCode;
     Keys::Key event;
 
     this->_toolInterface->initCoods();
@@ -247,6 +249,10 @@ int Core::run()
                 this->getTools()->getCurrentTool()->getName()
             );
             this->setIsRunning(false);
+        }
+        if (!this->_isRunning) {
+            exitCode = EX_ESCAPE;
+            break;
         }
         wrefresh(this->_window);
         //out << (int)event << std::endl;

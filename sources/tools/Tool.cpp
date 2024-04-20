@@ -18,11 +18,27 @@ Thomas ROUSTAN
 #include "Tool.hpp"
 #include "Core.hpp"
 
+//std::optional<std::vector<int>> whenOrNull(std::vector<int> pos) {
+//    if (pos.at(0) > 0 && pos.at(1) > 0) {
+//        return pos;
+//    } else {
+//        return NULL;
+//    }
+//}
+
 Tool::Tool(const char *name)
 {
     this->_name = name;
     this->_toggle = false;
     this->myfile.open("test.txt");
+}
+
+Tool::Tool(const char *name, screenCoords_t _coords)
+{
+    this->_name = name;
+    this->_toggle = false;
+    this->myfile.open("test.txt");
+    this->_cursor = {_coords.tool_end_x_menu_active + 1, _coords.tool_end_y_menu_active + 1};
 }
 
 Tool::~Tool()
@@ -64,6 +80,28 @@ void Tool::setCursor(std::vector<int> cursor)
     this->_cursor = cursor;
     return;
 }
+
+
+void Tool::moveCursorUp(void)
+{
+    int x = this->_cursor[0];
+    int y = this->_cursor[1] - 1;
+    std::vector<int> newPos {x, y};
+    this->setCursor(newPos);
+    return;
+};
+void Tool::moveCursorDown(void)
+{
+    return;
+};
+void Tool::moveCursorLeft(void)
+{
+    return;
+};
+void Tool::moveCursorRight(void)
+{
+    return;
+};
 
 void Tool::setCursorChar(char c)
 {
@@ -135,6 +173,11 @@ const char *Tool::getCursorChar(void)
 std::vector<int> Tool::findCursorNextPosition()
 {
   return {25, 25};
+};
+
+std::vector<int> Tool::getCursorCurrentPosition()
+{
+    return (this->_cursor);
 };
 
 std::string Tool::getBuffer(void)

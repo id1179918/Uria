@@ -17,6 +17,8 @@ Thomas ROUSTAN
 #include <ncurses.h>
 #include <iostream>
 
+#include "Coords.hpp"
+
 //void writeTextBufferWithMenu(WINDOW *, std::string, screenCoords_t);
 
 class Graphics {

@@ -19,9 +19,11 @@ Thomas ROUSTAN
 
 #include <iostream>
 #include <vector>
+#include <optional>
 
 
 #include "Core.hpp"
+#include "Coords.hpp"
 
 //typedef struct tool_text_buffer {
 //  std::string buffer;
@@ -36,6 +38,7 @@ class Tool {
 
     public:
         Tool(const char *);
+        Tool(const char *, screenCoords_t);
         ~Tool();
         bool getToggle(void);
         void setToggle(bool);
@@ -46,6 +49,11 @@ class Tool {
         std::vector<int> getCursor(void);
         void setCursor(std::vector<int>);
 
+        void moveCursorUp(void);
+        void moveCursorDown(void);
+        void moveCursorLeft(void);
+        void moveCursorRight(void);
+
         const char *getCursorChar(void);
         void setCursorChar(char);
 
@@ -55,6 +63,7 @@ class Tool {
         void popBuffer();
 
         std::vector<int> findCursorNextPosition();
+        std::vector<int> getCursorCurrentPosition();
 
         void setTime(std::time_t);
         std::time_t getTime();

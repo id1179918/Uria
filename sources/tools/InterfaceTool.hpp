@@ -21,19 +21,9 @@ Thomas ROUSTAN
 #include "Menu.hpp"
 #include "FileManager.hpp"
 #include "Ncurses.hpp"
+#include "Coords.hpp"
 
 #include <vector>
-
-typedef struct screenCoords {
-  int size_x;
-  int size_y;
-  int menu_origin_x;
-  int menu_origin_y;
-  int menu_end_x;
-  int menu_end_y;
-  int tool_origin_x_menu_active, tool_origin_y_menu_active, tool_end_x_menu_active, tool_end_y_menu_active;
-  int tool_origin_x_menu_unactive, tool_origin_y_menu_unactive, tool_end_x_menu_unactive, tool_end_y_menu_unactive;
-} screenCoords_t;
 
 class InterfaceTool {
     public:
@@ -95,6 +85,12 @@ class InterfaceTool {
         void displayMenuTyping(WINDOW *);
         void displayMenuNavSelected(WINDOW *);
         void displayMenu(WINDOW *);
+
+        void writeCursor(WINDOW *, std::vector<int>);
+
+        void writeTextBufferWithMenu(WINDOW *, std::string, screenCoords_t);
+        void writeTextBufferWithoutMenu(WINDOW *, std::string, screenCoords_t);
+
 
         // dev
           std::ofstream myfile;
