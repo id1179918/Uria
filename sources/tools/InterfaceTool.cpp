@@ -26,7 +26,6 @@ void InterfaceTool::writeTextBufferWithMenu(WINDOW *_window, std::string buffer,
   for (unsigned chunk_size = 0; chunk_size < buffer.length(); chunk_size += bufferMaxlength) {
     std::string line = buffer.substr(chunk_size, bufferMaxlength); //seg faulf because string too short
     mvwprintw(_window, y, x, line.c_str());
-    lastBufferSize = line.length();
     y++;
   }
   wattron(_window, COLOR_PAIR(14));
