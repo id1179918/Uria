@@ -59,13 +59,13 @@ int Graphics::render()
     std::string buffer_row = std::to_string(_row);
 
     wclear(_window);
-    //rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
-    wattron(_window, COLOR_PAIR(3));
-    printw(buffer_col.c_str());
+    wattron(_window, COLOR_PAIR(7));
+    rectangle(0, 0, (COLS - 1), (LINES - 1), _window);
+    mvwprintw(_window, 5, 5, "hello");
     printDebug(buffer_col.c_str());
-    wattroff(_window, COLOR_PAIR(3));
+    wattroff(_window, COLOR_PAIR(7));
     wrefresh(_window);
-    return (EX_OK);
+    return (EX_NCURSES);
 };
 
 void Graphics::printDebug(const char *str)
@@ -170,7 +170,6 @@ int Graphics::init()
 
 Graphics::Graphics()
 {
-    this->_window = newwin(LINES, COLS, 0, 0);
 }
 
 Graphics::~Graphics()

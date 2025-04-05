@@ -23,6 +23,6 @@ Thomas ROUSTAN
 #define EX_FAIL_OPEN_INPUT      4      /* cannot open input */
 #define EX_OSERR                5      /* system error (e.g., can't fork) */
 
-#define EX_NCURSES    100
+#define EX_NCURSES              100
 
 #endif

@@ -67,6 +67,8 @@ class Core {
         void setKBMode(void);
 
     private:
+        WINDOW *_window;
+
         Graphics *_graphics;
 
         EventHandler *_eventHandler;

@@ -39,21 +39,21 @@ void Core::setIsRunning(bool state)
 
 int Core::run()
 {
-    int exitCode;
-    Keys::Key event;
+    int exitCode = EX_OK;
+    //Keys::Key event;
 
     //this->_toolInterface->initCoods();
 
     while (this->_isRunning) {
-        event = this->_eventHandler->getInput();
-        if (event == Keys::K_EXIT) {
-            // save instance
-            //this->getTools()->fileManager()->save(
-            //    this->getTools()->getCurrentTool()->getBuffer(),
-            //    this->getTools()->getCurrentTool()->getName()
-            //);
-            this->setIsRunning(false);
-        }
+        //event = this->_eventHandler->getInput();
+        //if (event == Keys::K_EXIT) {
+        //    // save instance
+        //    //this->getTools()->fileManager()->save(
+        //    //    this->getTools()->getCurrentTool()->getBuffer(),
+        //    //    this->getTools()->getCurrentTool()->getName()
+        //    //);
+        //    this->setIsRunning(false);
+        //}
         if (!this->_isRunning) {
             exitCode = EX_ESCAPE;
             break;
@@ -74,8 +74,10 @@ Core::Core()
     //this->_width = COLS;
     //this->_row = 0;
     //this->_col = 0;
+    this->_window = newwin(0, 0, 0, 0);
     this->_graphics = new Graphics();
-    this->_eventHandler = new EventHandler(this->_graphics->getWindow());
+    this->_graphics->setWindow(this->_window);
+    this->_eventHandler = new EventHandler(this->_window);
     this->_isRunning = true;
     refresh();
 }
