@@ -41,7 +41,9 @@ CXXFLAGS	+= -I sources/ncurses/menu
 CXXFLAGS	+= -Wall -Werror -Wextra -Wsign-compare -fPIC
 CXXFLAGS	+= -std=c++17
 CXXFLAGS	+= -g
+CXXFLAGS 	+= $(shell pkg-config --cflags ftxui)
 
+LDFLAGS 	+= $(shell pkg-config --libs ftxui)
 LDFLAGS		+= -ldl -lncurses
 
 all:		$(NAME)
